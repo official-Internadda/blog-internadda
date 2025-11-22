@@ -8,7 +8,7 @@
     
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="icon" href="../images/favicon.ico">
+    <link rel="icon" href="favicon.ico">
 
     <style>
         /* =========================================
@@ -42,7 +42,7 @@
         .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
 
         /* =========================================
-           2. PROFESSIONAL HEADER (Desktop - Image 2 Style)
+           2. HEADER & NAVIGATION
            ========================================= */
         header {
             background: var(--white);
@@ -81,12 +81,15 @@
         
         .nav-item:hover { color: var(--primary); }
 
-        /* Hide icons on desktop main links to match Image 2 */
+        /* Hide icons on desktop main links */
         .nav-icon { display: none; }
 
-        /* Desktop Dropdown */
+        /* Desktop Dropdown (Hover based) */
         .dropdown { position: relative; }
+        
+        /* The trigger is part of nav-item on desktop */
         .dropdown-trigger { display: flex; align-items: center; gap: 4px; }
+        
         .dropdown-menu {
             position: absolute;
             top: 100%;
@@ -101,11 +104,11 @@
             z-index: 100;
             margin-top: 15px;
         }
-        /* Hover state for desktop */
+
+        /* Show menu on hover only for Desktop */
         @media (min-width: 993px) {
              .dropdown:hover .dropdown-menu { display: block; animation: fadeIn 0.2s ease; }
         }
-       
         
         .dropdown-item {
             display: flex;
@@ -116,7 +119,7 @@
             font-size: 0.95rem;
             border-left: 3px solid transparent;
         }
-        /* Hide item icons on desktop dropdown too if you prefer the super clean look, otherwise remove this line */
+        /* Icon styling inside dropdown */
         .item-icon { color: var(--primary); font-size: 1rem; width: 20px; text-align: center;}
 
         .dropdown-item:hover {
@@ -125,7 +128,6 @@
             border-left-color: var(--primary);
         }
 
-        /* Hamburger Button */
         .hamburger { 
             display: none; 
             font-size: 1.4rem; 
@@ -137,7 +139,7 @@
         }
 
         /* =========================================
-           3. BLOG & BODY STYLES (Unchanged)
+           3. BLOG & CONTENT STYLES
            ========================================= */
         .blog-wrapper {
             display: flex;
@@ -146,7 +148,6 @@
             align-items: flex-start;
         }
 
-        /* Sidebar */
         .blog-sidebar {
             flex: 0 0 300px;
             background: var(--white);
@@ -213,7 +214,6 @@
         }
         .btn-main-site:hover { background-color: #dbeafe; }
 
-        /* Main Content */
         .blog-content { flex: 1; }
         
         .page-heading {
@@ -351,11 +351,11 @@
         .footer-bottom { text-align: center; border-top: 1px solid #1e293b; padding-top: 20px; font-size: 0.85rem; color: #64748b; }
 
         /* =========================================
-           4. MOBILE RESPONSIVE (Image 1 Style)
+           4. MOBILE RESPONSIVE FIXES
            ========================================= */
         @media (max-width: 992px) {
             .nav-links {
-                position: fixed; /* Fixed to cover screen */
+                position: fixed;
                 top: 72px;
                 left: 0;
                 width: 100%;
@@ -363,7 +363,7 @@
                 background: white;
                 flex-direction: column;
                 align-items: flex-start;
-                padding: 10px 0; /* Reduced vertical padding overall */
+                padding: 0;
                 box-shadow: 0 20px 40px rgba(0,0,0,0.15);
                 display: none; 
                 overflow-y: auto;
@@ -372,10 +372,19 @@
             
             .nav-links.active { display: flex; }
 
-            /* Mobile Menu Items - Tighter Spacing & Icons Visible */
-            .nav-item {
+            /* KEY FIX: .nav-item.dropdown needs to be BLOCK (vertical) 
+               so the menu falls below the trigger 
+            */
+            .nav-item.dropdown {
+                display: block; /* Changed from flex to block */
+                padding: 0;
                 width: 100%;
-                padding: 12px 20px; /* Reduced padding for tighter look */
+            }
+
+            /* Standard Link Items */
+            a.nav-item {
+                width: 100%;
+                padding: 14px 20px;
                 border-bottom: 1px solid #f1f5f9;
                 font-size: 1rem;
                 color: #334155;
@@ -383,8 +392,20 @@
                 display: flex;
                 align-items: center;
             }
-            
-            /* Show icons on mobile */
+
+            /* Dropdown Trigger (The clickable part "More") */
+            .dropdown-trigger {
+                width: 100%;
+                display: flex;
+                justify-content: space-between; /* Text Left, Arrow Right */
+                align-items: center;
+                padding: 14px 20px;
+                border-bottom: 1px solid #f1f5f9;
+                color: #334155;
+                font-weight: 600;
+            }
+
+            /* Icon Styling */
             .nav-icon { 
                 display: inline-block; 
                 color: var(--primary); 
@@ -393,34 +414,28 @@
                 width: 24px; text-align: center;
             }
 
-            /* Mobile Dropdown Trigger (The "More" button) */
-            .dropdown-trigger {
-                width: 100%;
-                justify-content: space-between; /* Text left, arrow right */
-            }
+            /* Arrow Rotation */
             .dropdown-arrow { transition: transform 0.3s ease; }
-            
-            /* Rotate arrow when active */
-            .dropdown.active .dropdown-arrow {
-                transform: rotate(180deg);
-            }
+            .dropdown.active .dropdown-arrow { transform: rotate(180deg); }
 
-            /* Mobile Dropdown Menu Items */
+            /* Dropdown Menu (The sub-items) */
             .dropdown-menu {
-                position: static;
+                position: static; /* Forces it to sit in the flow (accordion style) */
                 width: 100%;
                 box-shadow: none;
                 border: none;
-                background: #f8fafc; /* slightly darker bg for nested */
+                background: #f8fafc; /* Light gray background */
                 display: none;
                 margin-top: 0;
-                padding: 5px 0;
+                padding: 0;
             }
             
+            /* Display block when parent is active */
             .dropdown.active .dropdown-menu { display: block; }
             
+            /* Indented Items */
             .dropdown-item { 
-                padding: 12px 20px 12px 30px; /* Indented items */
+                padding: 12px 20px 12px 56px; /* 56px indent aligns with text above */
                 border-bottom: 1px solid #e2e8f0; 
                 color: #475569;
                 font-weight: 500;
@@ -464,9 +479,10 @@
                 
                 <div class="nav-item dropdown" id="moreDropdown">
                     <div class="dropdown-trigger">
-                         <span><i class="fas fa-ellipsis-h nav-icon"></i> More</span> 
+                        <span><i class="fas fa-ellipsis-h nav-icon"></i> More</span> 
                         <i class="fas fa-chevron-down dropdown-arrow" style="font-size: 0.8em;"></i>
                     </div>
+                    
                     <div class="dropdown-menu">
                         <a href="https://check-ats.internadda.com/" class="dropdown-item">
                             <i class="fas fa-file-contract item-icon"></i> ATS Score
@@ -735,7 +751,7 @@
             if (navLinks.classList.contains('active')) {
                 icon.classList.remove('fa-bars');
                 icon.classList.add('fa-times');
-                body.style.overflow = 'hidden'; // Prevent scrolling when menu is open
+                body.style.overflow = 'hidden'; 
             } else {
                 icon.classList.remove('fa-times');
                 icon.classList.add('fa-bars');
@@ -743,7 +759,7 @@
             }
         });
 
-        // Mobile Dropdown Toggle (Click to expand on mobile)
+        // Mobile Dropdown Toggle (Click to expand ACCORDION)
         const dropdowns = document.querySelectorAll('.dropdown-trigger');
         dropdowns.forEach(trigger => {
             trigger.addEventListener('click', (e) => {
@@ -754,7 +770,7 @@
             });
         });
 
-        // Close menu when clicking outside (optional enhancement)
+        // Close menu when clicking outside
         document.addEventListener('click', (e) => {
             if (window.innerWidth <= 992 && navLinks.classList.contains('active') && !navLinks.contains(e.target) && !menuBtn.contains(e.target)) {
                 navLinks.classList.remove('active');
