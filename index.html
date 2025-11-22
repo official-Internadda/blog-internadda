@@ -84,12 +84,11 @@
         /* Hide icons on desktop main links */
         .nav-icon { display: none; }
 
-        /* Desktop Dropdown (Hover based) */
+        /* Desktop Dropdown */
         .dropdown { position: relative; }
-        
-        /* The trigger is part of nav-item on desktop */
         .dropdown-trigger { display: flex; align-items: center; gap: 4px; }
         
+        /* Desktop Hover Menu */
         .dropdown-menu {
             position: absolute;
             top: 100%;
@@ -105,7 +104,7 @@
             margin-top: 15px;
         }
 
-        /* Show menu on hover only for Desktop */
+        /* Desktop Hover Effect */
         @media (min-width: 993px) {
              .dropdown:hover .dropdown-menu { display: block; animation: fadeIn 0.2s ease; }
         }
@@ -119,7 +118,6 @@
             font-size: 0.95rem;
             border-left: 3px solid transparent;
         }
-        /* Icon styling inside dropdown */
         .item-icon { color: var(--primary); font-size: 1rem; width: 20px; text-align: center;}
 
         .dropdown-item:hover {
@@ -224,7 +222,6 @@
             letter-spacing: -0.025em;
         }
 
-        /* Featured Post */
         .featured-post {
             background: var(--white);
             border: 1px solid var(--border);
@@ -260,7 +257,6 @@
         .featured-excerpt { color: #64748b; margin-bottom: 20px; font-size: 1.05rem; }
         .meta-info { font-size: 0.85rem; color: #94a3b8; display: flex; align-items: center; gap: 15px; }
 
-        /* Article List */
         .grid-title { font-size: 1.5rem; font-weight: 700; color: #1e293b; margin-bottom: 20px; border-bottom: 2px solid var(--border); padding-bottom: 10px; }
         
         .article-list { display: flex; flex-direction: column; gap: 20px; }
@@ -294,7 +290,6 @@
         .tags-row { display: flex; gap: 8px; flex-wrap: wrap; }
         .mini-tag { font-size: 0.75rem; background: #f1f5f9; color: #64748b; padding: 2px 8px; border-radius: 4px; }
 
-        /* Team Section */
         .team-section {
             background: #0f172a; 
             padding: 80px 0;
@@ -340,7 +335,6 @@
         .team-role { color: #22c55e; font-size: 0.85rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; display: block; margin-bottom: 10px; }
         .team-bio { font-size: 0.85rem; color: #94a3b8; line-height: 1.5; }
 
-        /* Footer */
         footer { background: #0f172a; color: #cbd5e0; padding: 60px 0 20px; border-top: 1px solid #1e293b; }
         .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 40px; margin-bottom: 40px; }
         .footer-brand p { color: #94a3b8; font-size: 0.9rem; margin-top: 10px; max-width: 300px; }
@@ -351,9 +345,10 @@
         .footer-bottom { text-align: center; border-top: 1px solid #1e293b; padding-top: 20px; font-size: 0.85rem; color: #64748b; }
 
         /* =========================================
-           4. MOBILE RESPONSIVE FIXES
+           4. MOBILE RESPONSIVE
            ========================================= */
         @media (max-width: 992px) {
+            /* Mobile Container */
             .nav-links {
                 position: fixed;
                 top: 72px;
@@ -364,6 +359,7 @@
                 flex-direction: column;
                 align-items: flex-start;
                 padding: 0;
+                padding-bottom: 100px; /* Extra margin for scrolling */
                 box-shadow: 0 20px 40px rgba(0,0,0,0.15);
                 display: none; 
                 overflow-y: auto;
@@ -372,18 +368,15 @@
             
             .nav-links.active { display: flex; }
 
-            /* KEY FIX: .nav-item.dropdown needs to be BLOCK (vertical) 
-               so the menu falls below the trigger 
-            */
-            .nav-item.dropdown {
-                display: block; /* Changed from flex to block */
-                padding: 0;
+            /* Vertical Stack for Items */
+            .nav-item, .nav-item.dropdown {
+                display: block;
                 width: 100%;
+                padding: 0;
             }
 
-            /* Standard Link Items */
+            /* Standard Link Styling */
             a.nav-item {
-                width: 100%;
                 padding: 14px 20px;
                 border-bottom: 1px solid #f1f5f9;
                 font-size: 1rem;
@@ -393,16 +386,17 @@
                 align-items: center;
             }
 
-            /* Dropdown Trigger (The clickable part "More") */
+            /* Dropdown Trigger Styling (Same size as links) */
             .dropdown-trigger {
                 width: 100%;
                 display: flex;
-                justify-content: space-between; /* Text Left, Arrow Right */
+                justify-content: space-between;
                 align-items: center;
                 padding: 14px 20px;
                 border-bottom: 1px solid #f1f5f9;
                 color: #334155;
                 font-weight: 600;
+                cursor: pointer;
             }
 
             /* Icon Styling */
@@ -414,37 +408,36 @@
                 width: 24px; text-align: center;
             }
 
-            /* Arrow Rotation */
+            /* Arrow */
             .dropdown-arrow { transition: transform 0.3s ease; }
             .dropdown.active .dropdown-arrow { transform: rotate(180deg); }
 
-            /* Dropdown Menu (The sub-items) */
+            /* Accordion Dropdown Menu (No popups) */
             .dropdown-menu {
-                position: static; /* Forces it to sit in the flow (accordion style) */
+                position: static; 
                 width: 100%;
                 box-shadow: none;
                 border: none;
-                background: #f8fafc; /* Light gray background */
+                background: #f8fafc; /* Light grey background for contrast */
                 display: none;
                 margin-top: 0;
                 padding: 0;
             }
             
-            /* Display block when parent is active */
+            /* STRICT TOGGLE: Only show when active */
             .dropdown.active .dropdown-menu { display: block; }
             
             /* Indented Items */
             .dropdown-item { 
-                padding: 12px 20px 12px 56px; /* 56px indent aligns with text above */
+                padding: 12px 20px 12px 56px; /* Indent */
                 border-bottom: 1px solid #e2e8f0; 
                 color: #475569;
                 font-weight: 500;
             }
-             .dropdown-item:last-child { border-bottom: none; }
+            .dropdown-item:last-child { border-bottom: none; }
 
             .hamburger { display: block; }
 
-            /* Blog Layout Mobile */
             .blog-wrapper { flex-direction: column; padding-top: 20px; }
             .blog-sidebar { width: 100%; position: static; order: -1; margin-bottom: 30px; }
             .featured-body { flex-direction: column; }
@@ -482,7 +475,6 @@
                         <span><i class="fas fa-ellipsis-h nav-icon"></i> More</span> 
                         <i class="fas fa-chevron-down dropdown-arrow" style="font-size: 0.8em;"></i>
                     </div>
-                    
                     <div class="dropdown-menu">
                         <a href="https://check-ats.internadda.com/" class="dropdown-item">
                             <i class="fas fa-file-contract item-icon"></i> ATS Score
@@ -568,79 +560,54 @@
 
                 <h2 class="grid-title">Latest Updates</h2>
                 <div class="article-list">
-
                     <a href="https://blog-internadda.blogspot.com/2025/11/agentic-ai-quantum-leap-6g-future.html" class="article-item">
                         <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiVbDfjj9Tn5lXM21BEdlxx53WTeqgXiEnKC5AewFBKf2TvZO4EhIjz1TNXkaw8Vky5YQoU5DVgtb6Jc8TyH-e3SJjWqVgIEw41hXBHkLsYod6cfy86uZJ3pH6gKKbGYT2kk2-Yv0RkVBqpXnanf-5yNwNx9BBU5dPDyU3I5-iONhIZovpjvNHCv3848uk/s1024/Gemini_Generated_Image_51vg4451vg4451vg.png" alt="Agentic AI" class="article-thumb" onerror="this.src='../images/no_image.png'">
                         <div class="article-info">
                             <h3>Agentic AI, Quantum Leap & 6G: The Future Arrives Faster Than You Think</h3>
                             <p>Published Nov 20 • By Pranjal Singh</p>
-                            <div class="tags-row">
-                                <span class="mini-tag">6G Tech</span>
-                                <span class="mini-tag">AI Automation</span>
-                            </div>
+                            <div class="tags-row"><span class="mini-tag">6G Tech</span><span class="mini-tag">AI Automation</span></div>
                         </div>
                     </a>
-
                     <a href="https://blog-internadda.blogspot.com/2025/11/nvidia-takes-crown-how-2025-became-year.html" class="article-item">
                         <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEglHwPLvKS4R482oXui7xT5rpKBfRqefuMyaB3Mer-JUREsDACRZYpYB-0W_tIf6Xt7bgLppL2ay0wToa8a6vRThepu0p4W1CJUNx8wtO2OiYQtqDsJNqkS1cjYhsj6j2a_3gN7PNcArCH5IvkuDVWdbGf25PtzXSF8SjCs3scn6Sr6WMJW3aFllWNiwxQ/s984/Gemini_Generated_Image_xbp4dbxbp4dbxbp4.png" alt="NVIDIA" class="article-thumb" onerror="this.src='../images/no_image.png'">
                         <div class="article-info">
                             <h3>NVIDIA Takes the Crown: How 2025 Became the Year AI Got a New King</h3>
                             <p>Published Nov 19 • By Pranjal Singh</p>
-                            <div class="tags-row">
-                                <span class="mini-tag">AI Hardware</span>
-                                <span class="mini-tag">Innovation</span>
-                            </div>
+                            <div class="tags-row"><span class="mini-tag">AI Hardware</span><span class="mini-tag">Innovation</span></div>
                         </div>
                     </a>
-
                     <a href="https://blog-internadda.blogspot.com/2025/11/c-vs-python-which-programming-language.html" class="article-item">
                         <img src="https://blogger.googleusercontent.com/img/a/AVvXsEiu4E-cHAcb_UVBTVPQ8N7dr7n_1wBn4shAjQzddi4Bz6lARW0NncMTL6VDim2cYOhx4EzVWvnn4rgCqzwTVpjeeJ5osZ8eD1mfUnt6SrYJYxnxBFoLIhofMdV7spit5BHHI4aFOOuZ3HhBeZ3RGJDfUm4YET7y3An0xlmTuz9Emx5Lg9NolZEFIWAfjFg" alt="C++ vs Python" class="article-thumb" onerror="this.src='../images/no_image.png'">
                         <div class="article-info">
                             <h3>C++ vs. Python: Which Programming Language Should You Learn in Today's Tech Landscape?</h3>
                             <p>Published Nov 17 • By Pranjal Singh</p>
-                            <div class="tags-row">
-                                <span class="mini-tag">AI & Automation</span>
-                                <span class="mini-tag">Beginner Friendly</span>
-                            </div>
+                            <div class="tags-row"><span class="mini-tag">AI & Automation</span><span class="mini-tag">Beginner Friendly</span></div>
                         </div>
                     </a>
-
                     <a href="https://blog-internadda.blogspot.com/2025/11/ai-driven-autonomy-swarming-drones.html" class="article-item">
                         <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgp-xLsE3nSP5Bhfqhe3aYC0iNMB3WofOOfuYQm7-wfvWKLtzmQ2iWg6btPMetCyIG3F_Q1XSirqbtrC4LtagjEXH2TgkHiB58CB4oMh-tILnYoBopZ6WdD9y86IaJA2I96bibdUSiuf_MoMw3c-DADNt0kXSYwihT8GzMe2HfiTjmPSO8GIINPwJ07F0g/s1024/Gemini_Generated_Image_71nt4c71nt4c71nt.png" alt="Drones" class="article-thumb" onerror="this.src='../images/no_image.png'">
                         <div class="article-info">
                             <h3>AI-driven autonomy & swarming drones</h3>
                             <p>Published Nov 17 • By Pranjal Singh</p>
-                            <div class="tags-row">
-                                <span class="mini-tag">Drone Tech</span>
-                                <span class="mini-tag">Autonomy</span>
-                            </div>
+                            <div class="tags-row"><span class="mini-tag">Drone Tech</span><span class="mini-tag">Autonomy</span></div>
                         </div>
                     </a>
-
                     <a href="https://blog-internadda.blogspot.com/2025/11/a-new-era-of-healing-how-electric.html" class="article-item">
                         <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEh0EyE0mgWrHSi0T383pWe7dRh4wh_UM13eV1WdRuuAN1NPJ2h0OmqN2BWb6c5q8i3tlcqvGgNkKHeHiFFvI6QF95SBAE5cB1So0UegT1R6Mo-VP9k2SKFCeTUNOcq7Yh1_qAxS2AHyngN1pMJd7AVwDfOgYsRC84v1QlmICU8u0-8pxU2pcOAUdp4avws/s1024/Gemini_Generated_Image_vt5oe6vt5oe6vt5o.png" alt="Medical Tech" class="article-thumb" onerror="this.src='../images/no_image.png'">
                         <div class="article-info">
                             <h3>A New Era of Healing: How Electric Bandages Are Transforming Wound Care</h3>
                             <p>Published Nov 15 • By Pranjal Singh</p>
-                            <div class="tags-row">
-                                <span class="mini-tag">Biotech</span>
-                                <span class="mini-tag">Healthcare</span>
-                            </div>
+                            <div class="tags-row"><span class="mini-tag">Biotech</span><span class="mini-tag">Healthcare</span></div>
                         </div>
                     </a>
-
                     <a href="https://blog-internadda.blogspot.com/2025/11/the-ai-revolution-in-white-coats.html" class="article-item">
                         <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgrKQ9VW1c5Gsf6Gnx6XAIjluKauZU1Fqbk13INfbutdZFNyamuxKB8wMgq0HZSgKU9uaOSFfGBxBdqXslS54RfibZUW0Lkh8qFLzjL3ETIMgNvSsUQuVER5_7Y2cAp1oaKG0f-lUd4rFtd2hIrAteOlSFeONKFg270s9Hz1PLospSwpX8lnl6g9G4geG4/s770/Gemini_Generated_Image_299irq299irq299i.png" alt="AI Medicine" class="article-thumb" onerror="this.src='../images/no_image.png'">
                         <div class="article-info">
                             <h3>The AI Revolution in White Coats: Transforming Medicine from Discovery to Diagnosis</h3>
                             <p>Published Nov 14 • By Pranjal Singh</p>
-                            <div class="tags-row">
-                                <span class="mini-tag">Medical AI</span>
-                                <span class="mini-tag">Diagnosis</span>
-                            </div>
+                            <div class="tags-row"><span class="mini-tag">Medical AI</span><span class="mini-tag">Diagnosis</span></div>
                         </div>
                     </a>
-
                 </div>
             </section>
         </div>
@@ -651,48 +618,32 @@
                     <h2>Meet The Team</h2>
                     <p>The passionate minds behind Internadda.</p>
                 </div>
-
                 <div class="team-grid">
                     <a href="https://internaddablogs.blogspot.com/2025/11/lucky-tiwari-founder-of-internadda.html" class="team-link">
                         <div class="team-card">
-                            <div class="team-img-wrapper">
-                                <img src="founder.jpg" alt="Lucky Tiwari" class="team-img" onerror="this.src='../images/no_image.png'">
-                            </div>
-                            <h3 class="team-name">Lucky Tiwari</h3>
-                            <span class="team-role">Founder & CEO</span>
+                            <div class="team-img-wrapper"><img src="founder.jpg" alt="Lucky Tiwari" class="team-img" onerror="this.src='../images/no_image.png'"></div>
+                            <h3 class="team-name">Lucky Tiwari</h3><span class="team-role">Founder & CEO</span>
                             <p class="team-bio">Visionary leader passionate about democratizing education.</p>
                         </div>
                     </a>
-                
                     <a href="https://internaddablogs.blogspot.com/2025/11/vikash-singh-co-founder-head-of.html" class="team-link">
                         <div class="team-card">
-                            <div class="team-img-wrapper">
-                                <img src="Vikash.jpg" alt="Vikash Singh" class="team-img" onerror="this.src='../images/no_image.png'">
-                            </div>
-                            <h3 class="team-name">Vikash Singh</h3>
-                            <span class="team-role">Co-Founder</span>
+                            <div class="team-img-wrapper"><img src="Vikash.jpg" alt="Vikash Singh" class="team-img" onerror="this.src='../images/no_image.png'"></div>
+                            <h3 class="team-name">Vikash Singh</h3><span class="team-role">Co-Founder</span>
                             <p class="team-bio">Driving operations and partnerships for student success.</p>
                         </div>
                     </a>
-                
                     <a href="https://internaddablogs.blogspot.com/2025/11/sumit-pandey-cto-of-internadda-official.html" class="team-link">
                         <div class="team-card">
-                            <div class="team-img-wrapper">
-                                <img src="cto.jpg" alt="Sumit Pandey" class="team-img" onerror="this.src='../images/no_image.png'">
-                            </div>
-                            <h3 class="team-name">Sumit Pandey</h3>
-                            <span class="team-role">CTO</span>
+                            <div class="team-img-wrapper"><img src="cto.jpg" alt="Sumit Pandey" class="team-img" onerror="this.src='../images/no_image.png'"></div>
+                            <h3 class="team-name">Sumit Pandey</h3><span class="team-role">CTO</span>
                             <p class="team-bio">The tech wizard ensuring a seamless experience.</p>
                         </div>
                     </a>
-                
                     <a href="https://internaddablogs.blogspot.com/2025/11/pranjal-singh-coo-of-internadda.html" class="team-link">
                         <div class="team-card">
-                            <div class="team-img-wrapper">
-                                <img src="coo.jpg" alt="Pranjal Singh" class="team-img" onerror="this.src='../images/no_image.png'">
-                            </div>
-                            <h3 class="team-name">Pranjal Singh</h3>
-                            <span class="team-role">COO</span>
+                            <div class="team-img-wrapper"><img src="coo.jpg" alt="Pranjal Singh" class="team-img" onerror="this.src='../images/no_image.png'"></div>
+                            <h3 class="team-name">Pranjal Singh</h3><span class="team-role">COO</span>
                             <p class="team-bio">Managing operations and student support.</p>
                         </div>
                     </a>
@@ -708,29 +659,17 @@
                     <h3 style="font-size:1.5rem; margin-bottom:10px;">Internadda</h3>
                     <p style="color:#94a3b8; font-size:0.9rem;">Transforming careers through learning, interning, and earning opportunities.</p>
                 </div>
-                
                 <div class="footer-col">
                     <h3>Learn</h3>
-                    <ul>
-                        <li><a href="https://courses.internadda.com/">Browse Courses</a></li>
-                        <li><a href="https://courses.internadda.com/">Free Courses</a></li>
-                    </ul>
+                    <ul><li><a href="https://courses.internadda.com/">Browse Courses</a></li><li><a href="https://courses.internadda.com/">Free Courses</a></li></ul>
                 </div>
-
                 <div class="footer-col">
                     <h3>Intern</h3>
-                    <ul>
-                        <li><a href="https://internadda.com/intern/internship">Find Internships</a></li>
-                        <li><a href="#">Success Stories</a></li>
-                    </ul>
+                    <ul><li><a href="https://internadda.com/intern/internship">Find Internships</a></li><li><a href="#">Success Stories</a></li></ul>
                 </div>
-
                 <div class="footer-col">
                     <h3>Company</h3>
-                    <ul>
-                        <li><a href="https://internadda.com/about">About Us</a></li>
-                        <li><a href="https://internadda.com/contact">Contact</a></li>
-                    </ul>
+                    <ul><li><a href="https://internadda.com/about">About Us</a></li><li><a href="https://internadda.com/contact">Contact</a></li></ul>
                 </div>
             </div>
             <div class="footer-bottom">
@@ -740,44 +679,35 @@
     </footer>
 
     <script>
-        // Mobile Menu Toggle
         const menuBtn = document.getElementById('menuBtn');
         const navLinks = document.getElementById('navLinks');
         const icon = menuBtn.querySelector('i');
         const body = document.body;
 
+        // Main Menu Toggle
         menuBtn.addEventListener('click', () => {
             navLinks.classList.toggle('active');
             if (navLinks.classList.contains('active')) {
                 icon.classList.remove('fa-bars');
                 icon.classList.add('fa-times');
-                body.style.overflow = 'hidden'; 
+                body.style.overflow = 'hidden'; // Lock scroll
             } else {
                 icon.classList.remove('fa-times');
                 icon.classList.add('fa-bars');
-                body.style.overflow = 'auto';
+                body.style.overflow = 'auto'; // Unlock scroll
             }
         });
 
-        // Mobile Dropdown Toggle (Click to expand ACCORDION)
+        // Manual Toggle for "More" dropdown on mobile
         const dropdowns = document.querySelectorAll('.dropdown-trigger');
         dropdowns.forEach(trigger => {
             trigger.addEventListener('click', (e) => {
                 if (window.innerWidth <= 992) {
+                    e.stopPropagation(); // Prevent triggering parent clicks if any
                     const parent = trigger.parentElement;
                     parent.classList.toggle('active');
                 }
             });
-        });
-
-        // Close menu when clicking outside
-        document.addEventListener('click', (e) => {
-            if (window.innerWidth <= 992 && navLinks.classList.contains('active') && !navLinks.contains(e.target) && !menuBtn.contains(e.target)) {
-                navLinks.classList.remove('active');
-                icon.classList.remove('fa-times');
-                icon.classList.add('fa-bars');
-                body.style.overflow = 'auto';
-            }
         });
     </script>
 </body>
