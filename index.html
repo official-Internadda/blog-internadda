@@ -44,11 +44,11 @@
         .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
 
         /* =========================================
-           2. PROFESSIONAL HEADER (EdTech Style)
+           2. PROFESSIONAL HEADER (Desktop)
            ========================================= */
         header {
             background: var(--white);
-            box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+            border-bottom: 1px solid var(--border); /* Clean bottom line */
             position: sticky;
             top: 0;
             z-index: 1000;
@@ -58,7 +58,7 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            height: 72px; /* Standard height */
+            height: 72px; 
         }
 
         /* Logo */
@@ -76,13 +76,14 @@
             font-size: 0.95rem;
             padding: 8px 0;
             position: relative;
+            cursor: pointer;
         }
         
         .nav-item:hover { color: var(--primary); }
         
-        /* Dropdown */
+        /* Desktop Dropdown */
         .dropdown { position: relative; }
-        .dropdown-trigger { display: flex; align-items: center; gap: 4px; cursor: pointer; }
+        .dropdown-trigger { display: flex; align-items: center; gap: 4px; }
         .dropdown-menu {
             position: absolute;
             top: 100%;
@@ -95,7 +96,7 @@
             padding: 8px 0;
             display: none;
             z-index: 100;
-            margin-top: 10px;
+            margin-top: 15px; /* Spacing from header */
         }
         .dropdown:hover .dropdown-menu { display: block; animation: fadeIn 0.2s ease; }
         
@@ -112,8 +113,19 @@
             border-left-color: var(--primary);
         }
 
-        /* Mobile Menu Button */
-        .hamburger { display: none; font-size: 1.5rem; color: #334155; cursor: pointer; background: none; border: none; }
+        /* Mobile Menu Button - Updated Styling */
+        .hamburger { 
+            display: none; 
+            font-size: 1.2rem; 
+            color: var(--primary); /* Blue Color */
+            cursor: pointer; 
+            background: #eff6ff; /* Very light blue bg */
+            border: 1px solid #bfdbfe; /* subtle border */
+            border-radius: 6px;
+            padding: 8px 12px;
+            transition: all 0.2s;
+        }
+        .hamburger:hover { background: #dbeafe; }
 
         /* =========================================
            3. BLOG LAYOUT
@@ -150,7 +162,6 @@
 
         .sidebar-section { margin-bottom: 20px; }
         
-        /* Collapsible Details */
         details { margin-bottom: 10px; }
         summary {
             font-weight: 600;
@@ -275,10 +286,10 @@
         .mini-tag { font-size: 0.75rem; background: #f1f5f9; color: #64748b; padding: 2px 8px; border-radius: 4px; }
 
         /* =========================================
-           4. TEAM SECTION (Updated Layout)
+           4. TEAM SECTION
            ========================================= */
         .team-section {
-            background: #0f172a; /* Dark professional bg */
+            background: #0f172a; 
             padding: 80px 0;
             color: white;
             margin-top: 60px;
@@ -289,7 +300,7 @@
 
         .team-grid {
             display: grid;
-            grid-template-columns: repeat(4, 1fr); /* 4 Columns Desktop */
+            grid-template-columns: repeat(4, 1fr);
             gap: 25px;
         }
 
@@ -303,7 +314,7 @@
         }
         .team-card:hover {
             transform: translateY(-8px);
-            border-color: #22c55e; /* Green glow */
+            border-color: #22c55e;
             box-shadow: 0 10px 30px -10px rgba(34, 197, 94, 0.3);
         }
 
@@ -335,7 +346,7 @@
         .footer-bottom { text-align: center; border-top: 1px solid #1e293b; padding-top: 20px; font-size: 0.85rem; color: #64748b; }
 
         /* =========================================
-           6. MOBILE RESPONSIVE (Hamburger & Layout)
+           6. MOBILE RESPONSIVE (New Menu Design)
            ========================================= */
         @media (max-width: 992px) {
             .nav-links {
@@ -347,31 +358,49 @@
                 flex-direction: column;
                 align-items: flex-start;
                 padding: 0;
-                box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+                box-shadow: 0 20px 40px rgba(0,0,0,0.15);
                 display: none; /* Hidden by default */
+                max-height: calc(100vh - 72px);
+                overflow-y: auto;
+                border-top: 1px solid #e2e8f0;
             }
             
             .nav-links.active { display: flex; }
 
-            /* Separated Lines for Hamburger Menu Items */
+            /* App-like Menu Items with Separator Lines */
             .nav-item {
                 width: 100%;
-                padding: 15px 24px;
-                border-bottom: 1px solid #f1f5f9;
+                padding: 16px 24px;
+                border-bottom: 1px solid #cbd5e1; /* Visible Separator Line */
                 font-size: 1rem;
+                color: #1e293b;
+                font-weight: 600;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
             }
+            
             .nav-item:last-child { border-bottom: none; }
             
+            /* Mobile Dropdown Logic */
             .dropdown-menu {
-                position: static;
+                position: static; /* Not floating */
                 width: 100%;
                 box-shadow: none;
                 border: none;
-                background: #f8fafc;
+                border-bottom: 1px solid #cbd5e1; /* Separator after dropdown group */
+                background: #f8fafc; /* Slightly different bg for nested items */
                 display: none;
+                margin-top: 0;
             }
+            
             .dropdown.active .dropdown-menu { display: block; }
-            .dropdown-item { padding-left: 40px; border-bottom: 1px solid #e2e8f0; }
+            
+            .dropdown-item { 
+                padding: 14px 24px 14px 40px; /* Indented */
+                border-bottom: 1px solid #e2e8f0; 
+                color: #475569;
+            }
 
             .hamburger { display: block; }
 
