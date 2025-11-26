@@ -378,6 +378,7 @@
                 display: none; 
                 overflow-y: auto;
                 border-top: 1px solid #e2e8f0;
+                gap: 0; /* FIX: Removes inherited desktop gap */
             }
             
             .nav-links.active { display: flex; }
@@ -391,7 +392,7 @@
 
             /* Standard Link Styling */
             a.nav-item {
-                padding: 14px 20px;
+                padding: 12px 20px; /* Tightened Padding */
                 border-bottom: 1px solid #f1f5f9;
                 font-size: 1rem;
                 color: #334155;
@@ -406,7 +407,7 @@
                 display: flex;
                 justify-content: space-between;
                 align-items: center;
-                padding: 14px 20px;
+                padding: 12px 20px; /* Tightened Padding */
                 border-bottom: 1px solid #f1f5f9;
                 color: #334155;
                 font-weight: 600;
