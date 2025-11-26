@@ -6,15 +6,14 @@
     <title>Internadda Blog | Career Insights & Tech Trends</title>
     <meta name="description" content="Explore latest articles on Vibe Coding, Agentic AI, 6G, and the future of tech jobs.">
     
-    <!-- Using Inter Font and Font Awesome Icons -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="icon" href="favicon.ico">
 
     <style>
         /* =========================================
-            1. GLOBAL RESETS & VARIABLES
-            ========================================= */
+           1. GLOBAL RESETS & VARIABLES
+           ========================================= */
         :root {
             --primary: #4338ca;
             --primary-dark: #3730a3;
@@ -43,8 +42,8 @@
         .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
 
         /* =========================================
-            2. HEADER & NAVIGATION
-            ========================================= */
+           2. HEADER & NAVIGATION
+           ========================================= */
         header {
             background: var(--white);
             box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
@@ -78,6 +77,8 @@
             cursor: pointer;
             display: flex;
             align-items: center;
+            border: none;
+            background: none;
         }
         
         .nav-item:hover { color: var(--primary); }
@@ -85,11 +86,11 @@
         /* Hide icons on desktop main links */
         .nav-icon { display: none; }
 
-        /* Desktop Dropdown */
+        /* Dropdown Styles */
         .dropdown { position: relative; }
-        .dropdown-trigger { display: flex; align-items: center; gap: 4px; }
+        .dropdown-trigger { display: flex; align-items: center; gap: 6px; }
         
-        /* Desktop Hover Menu */
+        /* Dropdown Menu */
         .dropdown-menu {
             position: absolute;
             top: 100%;
@@ -100,18 +101,24 @@
             border-radius: 8px;
             box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
             padding: 8px 0;
-            display: none;
+            display: none; /* Hidden by default */
             z-index: 100;
             margin-top: 15px;
+            transform-origin: top right;
         }
 
-        /* Desktop Hover Effect */
-        @media (min-width: 993px) {
-             .dropdown:hover .dropdown-menu { display: block; animation: fadeIn 0.2s ease; }
-             /* Ensure mobile active class is disabled on desktop */
-             .dropdown-menu { display: none !important; }
-             .dropdown:hover .dropdown-menu { display: block !important; }
-             .nav-item:hover { color: var(--primary); } /* Restore hover color on desktop */
+        /* Show Dropdown when Active Class is added via JS */
+        .dropdown.active .dropdown-menu { 
+            display: block; 
+            animation: fadeIn 0.2s ease; 
+        }
+        
+        .dropdown-arrow { transition: transform 0.2s ease; font-size: 0.8em; }
+        .dropdown.active .dropdown-arrow { transform: rotate(180deg); }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
         }
         
         .dropdown-item {
@@ -142,8 +149,8 @@
         }
 
         /* =========================================
-            3. BLOG & CONTENT STYLES
-            ========================================= */
+           3. BLOG & CONTENT STYLES
+           ========================================= */
         .blog-wrapper {
             display: flex;
             gap: 40px;
@@ -173,8 +180,12 @@
             gap: 8px;
         }
 
-        .sidebar-menu details { margin-bottom: 10px; }
-        .sidebar-menu summary {
+        .sidebar-section { margin-bottom: 20px; }
+        
+        details { margin-bottom: 10px; border-bottom: 1px solid #f1f5f9; padding-bottom: 10px; }
+        details:last-of-type { border-bottom: none; }
+        
+        summary {
             font-weight: 600;
             color: #334155;
             cursor: pointer;
@@ -183,19 +194,9 @@
             display: flex;
             justify-content: space-between;
             font-size: 0.95rem;
-            transition: color 0.2s;
         }
-        /* Fix for auto-open issue: Ensure details marker is hidden */
         summary::-webkit-details-marker { display: none; }
         summary:hover { color: var(--primary); }
-        /* Professional Toggle arrow style for sidebar */
-        summary i.fa-chevron-down {
-            transition: transform 0.3s;
-        }
-        /* Ensure the arrow rotates when the section is opened */
-        .sidebar-menu details[open] summary i.fa-chevron-down {
-            transform: rotate(180deg);
-        }
         
         .sidebar-list li { margin-top: 8px; }
         .sidebar-list a {
@@ -203,7 +204,7 @@
             color: #64748b;
             display: block;
             padding: 4px 0 4px 12px;
-            border-left: 2px solid transparent;
+            border-left: 2px solid #e2e8f0;
         }
         .sidebar-list a:hover {
             color: var(--primary);
@@ -270,14 +271,7 @@
         .featured-excerpt { color: #64748b; margin-bottom: 20px; font-size: 1.05rem; }
         .meta-info { font-size: 0.85rem; color: #94a3b8; display: flex; align-items: center; gap: 15px; }
 
-        .grid-title { 
-            font-size: 1.5rem; 
-            font-weight: 700; 
-            color: #1e293b; 
-            margin-bottom: 20px; 
-            border-bottom: 2px solid var(--border); 
-            padding-bottom: 10px; 
-        }
+        .grid-title { font-size: 1.5rem; font-weight: 700; color: #1e293b; margin-bottom: 20px; border-bottom: 2px solid var(--border); padding-bottom: 10px; }
         
         .article-list { display: flex; flex-direction: column; gap: 20px; }
         
@@ -305,10 +299,10 @@
         }
         
         .article-info h3 { font-size: 1.15rem; font-weight: 700; color: #1e293b; margin-bottom: 8px; line-height: 1.4; }
-        .article-info p { font-size: 0.9rem; color: #64748b; margin-bottom: 10px; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+        .article-info p { font-size: 0.85rem; color: #64748b; margin-bottom: 10px; }
         
         .tags-row { display: flex; gap: 8px; flex-wrap: wrap; }
-        .mini-tag { font-size: 0.75rem; background: #f1f5f9; color: #64748b; padding: 2px 8px; border-radius: 4px; }
+        .mini-tag { font-size: 0.75rem; background: #f1f5f9; color: #64748b; padding: 2px 8px; border-radius: 4px; border: 1px solid #e2e8f0; }
 
         .team-section {
             background: #0f172a; 
@@ -365,8 +359,8 @@
         .footer-bottom { text-align: center; border-top: 1px solid #1e293b; padding-top: 20px; font-size: 0.85rem; color: #64748b; }
 
         /* =========================================
-            4. MOBILE RESPONSIVE
-            ========================================= */
+           4. MOBILE RESPONSIVE
+           ========================================= */
         @media (max-width: 992px) {
             /* Mobile Container */
             .nav-links {
@@ -379,7 +373,7 @@
                 flex-direction: column;
                 align-items: flex-start;
                 padding: 0;
-                padding-bottom: 100px; /* Extra margin for scrolling */
+                padding-bottom: 100px; 
                 box-shadow: 0 20px 40px rgba(0,0,0,0.15);
                 display: none; 
                 overflow-y: auto;
@@ -395,36 +389,32 @@
                 padding: 0;
             }
 
-            /* Standard Link Styling - Fixed: Removed border-bottom for cleaner mobile nav */
+            /* Standard Link Styling */
             a.nav-item {
                 padding: 14px 20px;
+                border-bottom: 1px solid #f1f5f9;
                 font-size: 1rem;
                 color: #334155;
                 font-weight: 600;
                 display: flex;
                 align-items: center;
             }
-             /* Added border explicitly for all list items except dropdowns */
-            .nav-item:not(.dropdown) {
-                border-bottom: 1px solid #f1f5f9;
-            }
 
-            /* Dropdown Trigger Styling (Same size as links) */
+            /* Dropdown Trigger Styling */
             .dropdown-trigger {
                 width: 100%;
                 display: flex;
                 justify-content: space-between;
                 align-items: center;
                 padding: 14px 20px;
-                border-bottom: 1px solid #f1f5f9; 
+                border-bottom: 1px solid #f1f5f9;
                 color: #334155;
                 font-weight: 600;
                 cursor: pointer;
             }
-             /* Fix for mobile dropdown menu display property */
-            .dropdown-menu { display: none; }
-            .dropdown.active .dropdown-menu { display: block; }
-
+            
+            /* Remove extra lines for the last item or specific elements */
+            .nav-item:last-child { border-bottom: none; }
 
             /* Icon Styling */
             .nav-icon { 
@@ -435,24 +425,22 @@
                 width: 24px; text-align: center;
             }
 
-            /* Arrow */
-            .dropdown-arrow { transition: transform 0.3s ease; }
-            .dropdown.active .dropdown-arrow { transform: rotate(180deg); }
-
-            /* Accordion Dropdown Menu (No popups) */
+            /* Dropdown Menu Mobile */
             .dropdown-menu {
                 position: static; 
                 width: 100%;
                 box-shadow: none;
                 border: none;
-                background: #f8fafc; /* Light grey background for contrast */
+                background: #f8fafc;
+                display: none;
                 margin-top: 0;
                 padding: 0;
+                border-bottom: 1px solid #f1f5f9;
             }
             
             /* Indented Items */
             .dropdown-item { 
-                padding: 12px 20px 12px 56px; /* Indent */
+                padding: 12px 20px 12px 56px; 
                 border-bottom: 1px solid #e2e8f0; 
                 color: #475569;
                 font-weight: 500;
@@ -467,6 +455,10 @@
             .featured-img { height: 200px; width: 100%; }
             .team-grid { grid-template-columns: repeat(2, 1fr); gap: 15px; }
             .footer-grid { grid-template-columns: 1fr; gap: 30px; }
+            
+            /* Fix Article Item Stacking on Mobile */
+            .article-item { flex-direction: column; }
+            .article-thumb { width: 100%; height: 180px; }
         }
     </style>
 </head>
@@ -475,8 +467,7 @@
     <header>
         <div class="container nav-container">
             <a href="https://internadda.com/" class="logo">
-                <!-- Placeholder for logo image -->
-                <img src="https://placehold.co/36x36/4338ca/ffffff?text=IA" alt="InternAdda">
+                <img src="logo.jpg" alt="InternAdda">
                 <span>Intern<span>adda</span></span>
             </a>
 
@@ -494,30 +485,29 @@
                     <i class="fas fa-info-circle nav-icon"></i> About Us
                 </a>
                 
-                <!-- Drodown Menu for 'More' -->
                 <div class="nav-item dropdown" id="moreDropdown">
                     <div class="dropdown-trigger">
                         <span><i class="fas fa-ellipsis-h nav-icon"></i> More</span> 
-                        <i class="fas fa-chevron-down dropdown-arrow" style="font-size: 0.8em;"></i>
+                        <i class="fas fa-chevron-down dropdown-arrow"></i>
                     </div>
                     <div class="dropdown-menu">
                         <a href="https://check-ats.internadda.com/" class="dropdown-item">
                             <i class="fas fa-file-contract item-icon"></i> ATS Score
                         </a>
                         <a href="https://cv-builder.internadda.com/" class="dropdown-item">
-                            <i class="fas fa-file-alt item-icon"></i> Resume Builder
+                             <i class="fas fa-file-alt item-icon"></i> Resume Builder
                         </a>
                         <a href="#" class="dropdown-item">
                             <i class="fas fa-question-circle item-icon"></i> Interview Question
                         </a>
                         <a href="#" class="dropdown-item">
-                            <i class="fas fa-envelope-open-text item-icon"></i> Cover Letter Generator
+                             <i class="fas fa-envelope-open-text item-icon"></i> Cover Letter Generator
                         </a>
                         <a href="https://internadda.com/contact" class="dropdown-item">
-                            <i class="fas fa-phone-alt item-icon"></i> Contact
+                             <i class="fas fa-phone-alt item-icon"></i> Contact
                         </a>
-                        <a href="#" class="dropdown-item">
-                            <i class="fas fa-blog item-icon"></i> Blog
+                         <a href="#" class="dropdown-item">
+                             <i class="fas fa-blog item-icon"></i> Blog
                         </a>
                     </div>
                 </div>
@@ -533,34 +523,32 @@
         <div class="container blog-wrapper">
             
             <aside class="blog-sidebar">
-                <div class="sidebar-title"><i class="fas fa-th-large" style="color:var(--primary)"></i> Blog Dashboard</div>
+                <div class="sidebar-title"><i class="fas fa-chart-line" style="color:var(--primary)"></i> Most Viewed & Old</div>
                 
                 <div class="sidebar-menu">
-                    <!-- Fixed: Removed 'open' attribute so sections are closed by default -->
-                    <details>
-                        <summary>Latest & Trending <i class="fas fa-chevron-down"></i></summary>
+                    <details open>
+                        <summary>Top Hits (Nov) <i class="fas fa-chevron-down"></i></summary>
                         <ul class="sidebar-list">
-                            <li><a href="https://blog-internadda.blogspot.com/2025/11/the-future-lives-at-edge-physical-ai.html">Physical AI & Next Industrial Revolution</a></li>
-                            <li><a href="https://blog-internadda.blogspot.com/2025/11/foldables-go-mainstream-big-smartphone.html">Foldables Go Mainstream (2026)</a></li>
-                            <li><a href="https://blog-internadda.blogspot.com/2025/11/vibe-coding-2026-how-intent-driven.html">Vibe Coding 2026</a></li>
-                            <li><a href="https://blog-internadda.blogspot.com/2025/11/agentic-ai-quantum-leap-6g-future.html">Agentic AI & 6G</a></li>
-                            <li><a href="https://blog-internadda.blogspot.com/2025/11/nvidia-takes-crown-how-2025-became-year.html">NVIDIA's 2025 Dominance</a></li>
+                            <li><a href="#">Foldables Go Mainstream</a></li>
+                            <li><a href="#">Agentic AI & 6G</a></li>
+                            <li><a href="#">Vibe Coding 2026</a></li>
                         </ul>
                     </details>
 
                     <details>
-                        <summary>Programming & Tech <i class="fas fa-chevron-down"></i></summary>
+                        <summary>Tech Insights <i class="fas fa-chevron-down"></i></summary>
                         <ul class="sidebar-list">
-                            <li><a href="https://blog-internadda.blogspot.com/2025/11/c-vs-python-which-programming-language.html">C++ vs Python in 2025</a></li>
-                            <li><a href="https://python-paradox.blogspot.com/2025/11/reasons-python-deserves-to-be-your.html">The Python Paradox</a></li>
+                            <li><a href="#">NVIDIA's New Era</a></li>
+                            <li><a href="#">C++ vs Python</a></li>
+                            <li><a href="#">IBM Quantum Computing</a></li>
                         </ul>
                     </details>
 
                     <details>
-                        <summary>AI & Machine Learning <i class="fas fa-chevron-down"></i></summary>
+                        <summary>Medical & AI <i class="fas fa-chevron-down"></i></summary>
                         <ul class="sidebar-list">
-                            <li><a href="https://blog-internadda.blogspot.com/2025/11/ai-driven-autonomy-swarming-drones.html">AI-Driven Autonomy</a></li>
-                            <li><a href="https://blog-internadda.blogspot.com/2025/11/the-ai-revolution-in-white-coats.html">AI Revolution in Medicine</a></li>
+                            <li><a href="#">AI in White Coats</a></li>
+                            <li><a href="#">Electric Bandages</a></li>
                         </ul>
                     </details>
                 </div>
@@ -571,17 +559,15 @@
             <section class="blog-content">
                 <h1 class="page-heading">Internadda Career Insights</h1>
 
-                <!-- FEATURED POST: Vibe Coding (Kept as per original structure) -->
-                <a href="https://blog-internadda.blogspot.com/2025/11/vibe-coding-2026-how-intent-driven.html" class="featured-post">
+                <a href="#" class="featured-post">
                     <div class="featured-body">
-                        <!-- Placeholder image for Vibe Coding -->
-                        <img src="https://placehold.co/400x250/4338ca/ffffff?text=Vibe+Coding" alt="Vibe Coding" class="featured-img" onerror="this.src='https://placehold.co/400x250/ccc/000?text=Image+Missing'">
+                        <img src="https://placehold.co/800x500/4338ca/ffffff?text=Physical+AI+%26+Edge+Computing" alt="Physical AI" class="featured-img">
                         <div class="featured-text">
-                            <span class="tag">Featured • Nov 22</span>
-                            <h2 class="featured-title">Vibe Coding 2026: How Intent-Driven Software is About to Rewrite the Future</h2>
-                            <p class="featured-excerpt">Explore the shift towards intent-driven software development and how AI-assisted coding is reshaping the landscape for developers in 2026 and beyond.</p>
+                            <span class="tag">Featured • Nov 25</span>
+                            <h2 class="featured-title">The Future Lives at the Edge: Physical AI and the Next Industrial Revolution</h2>
+                            <p class="featured-excerpt">Explore how Edge AI, autonomous systems, and embedded intelligence are shaping Industry 4.0 and the IoT innovation landscape.</p>
                             <div class="meta-info">
-                                <span><i class="far fa-clock"></i> 5 min read</span>
+                                <span><i class="far fa-clock"></i> 4 min read</span>
                                 <span style="color:var(--primary); font-weight:600;">Read Article <i class="fas fa-arrow-right"></i></span>
                             </div>
                         </div>
@@ -590,87 +576,70 @@
 
                 <h2 class="grid-title">Latest Updates</h2>
                 <div class="article-list">
-                    <!-- NEW ARTICLE 1: The Future Lives at the Edge (Nov 25) -->
-                    <a href="https://blog-internadda.blogspot.com/2025/11/the-future-lives-at-edge-physical-ai.html" class="article-item">
-                        <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhu9sfYIR5qFFOuH4e0znr04NjxUZ42PC_3AUfEGb0R1F3_JW0srIZCrvYR0J7bRxLs72LNov7RWPfTNhpc9Operio-UvDcmUkJuLlYyl3-Ec7idoiyXcPZwK04W4s7eLD3QBhRXIDhOwy4jNmubCgoyOLhMrzhlPZ3Cdnxw2DCUyiuSZq0_7zVKv7k1A0/s1264/Gemini_Generated_Image_38cm6e38cm6e38cm.png" alt="Physical AI" class="article-thumb" onerror="this.src='https://placehold.co/160x100/ccc/000?text=Image+Missing'">
-                        <div class="article-info">
-                            <h3>The Future Lives at the Edge: Physical AI and the Next Industrial Revolution</h3>
-                            <p>Published Nov 25 • By Pranjal Singh</p>
-                            <div class="tags-row"><span class="mini-tag">Edge AI</span><span class="mini-tag">IoT Innovation</span></div>
-                        </div>
-                    </a>
-                    <!-- NEW ARTICLE 2: Foldables Go Mainstream (Nov 24) -->
-                    <a href="https://blog-internadda.blogspot.com/2025/11/foldables-go-mainstream-big-smartphone.html" class="article-item">
-                        <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjkzB6SsZeuPebSctUSBOl8vQCEm35XrJPjDxO0_U51YI9p2P_J7nHpHCz5_8tNAxtPf4MdpaPoahyphenhyphenSWIit8mCuaU-0TxyHkxxdAmc7u_2KcymP9e_ap0UeRaJ-PXjYg_g6LlYSUxHdjOlmj8vEyvv_5-1U0dLnnZfMXUdzh1NeNDaFc1T83rWKSJ5SvCA/s902/Gemini_Generated_Image_cuwltdcuwltdcuwl.png" alt="Foldables" class="article-thumb" onerror="this.src='https://placehold.co/160x100/ccc/000?text=Image+Missing'">
+                    
+                    <a href="#" class="article-item">
+                        <img src="https://placehold.co/300x200/4c51bf/ffffff?text=Foldables+2026" alt="Foldables" class="article-thumb">
                         <div class="article-info">
                             <h3>Foldables Go Mainstream: The Big Smartphone Shift of 2026</h3>
                             <p>Published Nov 24 • By Pranjal Singh</p>
-                            <div class="tags-row"><span class="mini-tag">2026 Tech</span><span class="mini-tag">Adaptive Displays</span></div>
+                            <div class="tags-row"><span class="mini-tag">Tech Trends</span><span class="mini-tag">Mobile</span></div>
                         </div>
                     </a>
-                    <!-- EXISTING ARTICLE 1: Agentic AI (Nov 20) -->
+
+                    <a href="https://blog-internadda.blogspot.com/2025/11/vibe-coding-2026-how-intent-driven.html" class="article-item">
+                        <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEh6cIZ4tEIoAcW6RnWYD7oQPqUSJLKmDTvr-pWQlU1UPgBBoOWCYK4HrI1IgGB-V7EDpOE84hSdFLQwCrm0NusPAzAOS2T1MWeMhN239H-hjoul4rqOdglHPfOiIlWHOfQeh5F4pl3gQCk5hyphenhyphenaLJgeMGLejfyUpiG-ZennhWq5FPj-OuY3Ittta3tNdgoM/s1024/Gemini_Generated_Image_iayol5iayol5iayo.png" alt="Vibe Coding" class="article-thumb">
+                        <div class="article-info">
+                            <h3>Vibe Coding 2026: How Intent-Driven Software is About to Rewrite the Future</h3>
+                            <p>Published Nov 22 • By Pranjal Singh</p>
+                            <div class="tags-row"><span class="mini-tag">AI Coding</span><span class="mini-tag">Cloud Native</span></div>
+                        </div>
+                    </a>
+
                     <a href="https://blog-internadda.blogspot.com/2025/11/agentic-ai-quantum-leap-6g-future.html" class="article-item">
-                        <img src="https://placehold.co/160x100/2563eb/ffffff?text=Agentic+AI" alt="Agentic AI" class="article-thumb" onerror="this.src='https://placehold.co/160x100/ccc/000?text=Image+Missing'">
+                        <img src="https://placehold.co/300x200/334155/ffffff?text=Agentic+AI+%26+6G" alt="Agentic AI" class="article-thumb">
                         <div class="article-info">
                             <h3>Agentic AI, Quantum Leap & 6G: The Future Arrives Faster Than You Think</h3>
                             <p>Published Nov 20 • By Pranjal Singh</p>
-                            <div class="tags-row"><span class="mini-tag">6G Tech</span><span class="mini-tag">AI Automation</span></div>
+                            <div class="tags-row"><span class="mini-tag">6G Technology</span><span class="mini-tag">AI Automation</span></div>
                         </div>
                     </a>
-                    <!-- EXISTING ARTICLE 2: NVIDIA Takes the Crown (Nov 19) -->
+
                     <a href="https://blog-internadda.blogspot.com/2025/11/nvidia-takes-crown-how-2025-became-year.html" class="article-item">
-                        <img src="https://placehold.co/160x100/1e293b/ffffff?text=NVIDIA" alt="NVIDIA" class="article-thumb" onerror="this.src='https://placehold.co/160x100/ccc/000?text=Image+Missing'">
+                        <img src="https://placehold.co/300x200/22c55e/ffffff?text=NVIDIA+2025" alt="NVIDIA" class="article-thumb">
                         <div class="article-info">
                             <h3>NVIDIA Takes the Crown: How 2025 Became the Year AI Got a New King</h3>
                             <p>Published Nov 19 • By Pranjal Singh</p>
-                            <div class="tags-row"><span class="mini-tag">AI Hardware</span><span class="mini-tag">Innovation</span></div>
+                            <div class="tags-row"><span class="mini-tag">AI Hardware</span><span class="mini-tag">Enterprise AI</span></div>
                         </div>
                     </a>
-                    <!-- EXISTING ARTICLE 3: C++ vs. Python (Nov 17) -->
+
                     <a href="https://blog-internadda.blogspot.com/2025/11/c-vs-python-which-programming-language.html" class="article-item">
-                        <img src="https://placehold.co/160x100/f59e0b/ffffff?text=C++vsPython" alt="C++ vs Python" class="article-thumb" onerror="this.src='https://placehold.co/160x100/ccc/000?text=Image+Missing'">
+                        <img src="https://blogger.googleusercontent.com/img/a/AVvXsEiu4E-cHAcb_UVBTVPQ8N7dr7n_1wBn4shAjQzddi4Bz6lARW0NncMTL6VDim2cYOhx4EzVWvnn4rgCqzwTVpjeeJ5osZ8eD1mfUnt6SrYJYxnxBFoLIhofMdV7spit5BHHI4aFOOuZ3HhBeZ3RGJDfUm4YET7y3An0xlmTuz9Emx5Lg9NolZEFIWAfjFg" alt="C++ vs Python" class="article-thumb">
                         <div class="article-info">
-                            <h3>C++ vs. Python: Which Programming Language Should You Learn in Today's Tech Landscape?</h3>
+                            <h3>C++ vs. Python: Which Programming Language Should You Learn in 2025?</h3>
                             <p>Published Nov 17 • By Pranjal Singh</p>
-                            <div class="tags-row"><span class="mini-tag">AI & Automation</span><span class="mini-tag">Beginner Friendly</span></div>
+                            <div class="tags-row"><span class="mini-tag">Career</span><span class="mini-tag">Programming</span></div>
                         </div>
                     </a>
-                    <!-- EXISTING ARTICLE 4: AI-driven autonomy & swarming drones (Nov 17) -->
-                    <a href="https://blog-internadda.blogspot.com/2025/11/ai-driven-autonomy-swarming-drones.html" class="article-item">
-                        <img src="https://placehold.co/160x100/ef4444/ffffff?text=Drones" alt="Drones" class="article-thumb" onerror="this.src='https://placehold.co/160x100/ccc/000?text=Image+Missing'">
-                        <div class="article-info">
-                            <h3>AI-driven autonomy & swarming drones</h3>
-                            <p>Published Nov 17 • By Pranjal Singh</p>
-                            <div class="tags-row"><span class="mini-tag">Drone Tech</span><span class="mini-tag">Autonomy</span></div>
-                        </div>
-                    </a>
-                    <!-- EXISTING ARTICLE 5: A New Era of Healing (Nov 15) -->
-                    <a href="https://blog-internadda.blogspot.com/2025/11/a-new-era-of-healing-how-electric.html" class="article-item">
-                        <img src="https://placehold.co/160x100/8b5cf6/ffffff?text=Healing+Tech" alt="Medical Tech" class="article-thumb" onerror="this.src='https://placehold.co/160x100/ccc/000?text=Image+Missing'">
-                        <div class="article-info">
-                            <h3>A New Era of Healing: How Electric Bandages Are Transforming Wound Care</h3>
-                            <p>Published Nov 15 • By Pranjal Singh</p>
-                            <div class="tags-row"><span class="mini-tag">Biotech</span><span class="mini-tag">Healthcare</span></div>
-                        </div>
-                    </a>
-                    <!-- EXISTING ARTICLE 6: The AI Revolution in White Coats (Nov 14) -->
+
                     <a href="https://blog-internadda.blogspot.com/2025/11/the-ai-revolution-in-white-coats.html" class="article-item">
-                        <img src="https://placehold.co/160x100/06b6d4/ffffff?text=AI+Medicine" alt="AI Medicine" class="article-thumb" onerror="this.src='https://placehold.co/160x100/ccc/000?text=Image+Missing'">
+                        <img src="https://placehold.co/300x200/e11d48/ffffff?text=AI+Medicine" alt="AI Medicine" class="article-thumb">
                         <div class="article-info">
                             <h3>The AI Revolution in White Coats: Transforming Medicine from Discovery to Diagnosis</h3>
                             <p>Published Nov 14 • By Pranjal Singh</p>
-                            <div class="tags-row"><span class="mini-tag">Medical AI</span><span class="mini-tag">Diagnosis</span></div>
+                            <div class="tags-row"><span class="mini-tag">Biotech</span><span class="mini-tag">Healthcare</span></div>
                         </div>
                     </a>
-                    <!-- MOST VIEWED/OLD ARTICLE 1: How IBM Is Powering the Future of Quantum Computing (Nov 13) - Added from second image -->
-                    <a href="https://blog-internadda.blogspot.com/2025/11/how-ibm-is-powering-future-of-quantum-computing.html" class="article-item">
-                        <img src="https://placehold.co/160x100/4f46e5/ffffff?text=Quantum+Comp" alt="Quantum Computing" class="article-thumb" onerror="this.src='https://placehold.co/160x100/ccc/000?text=Image+Missing'">
+
+                    <a href="#" class="article-item">
+                        <img src="https://placehold.co/300x200/1e293b/ffffff?text=IBM+Quantum" alt="Quantum Computing" class="article-thumb">
                         <div class="article-info">
                             <h3>How IBM Is Powering the Future of Quantum Computing</h3>
                             <p>Published Nov 13 • By Pranjal Singh</p>
-                            <div class="tags-row"><span class="mini-tag">Emerging Tech</span><span class="mini-tag">Quantum</span></div>
+                            <div class="tags-row"><span class="mini-tag">Quantum</span><span class="mini-tag">Innovation</span></div>
                         </div>
                     </a>
+
                 </div>
             </section>
         </div>
@@ -684,29 +653,28 @@
                 <div class="team-grid">
                     <a href="https://internaddablogs.blogspot.com/2025/11/lucky-tiwari-founder-of-internadda.html" class="team-link">
                         <div class="team-card">
-                            <!-- Placeholder images for team members -->
-                            <div class="team-img-wrapper"><img src="https://placehold.co/120x120/1e293b/22c55e?text=LT" alt="Lucky Tiwari" class="team-img" onerror="this.src='https://placehold.co/120x120/ccc/000?text=LT'"></div>
+                            <div class="team-img-wrapper"><img src="founder.jpg" alt="Lucky Tiwari" class="team-img" onerror="this.src='../images/no_image.png'"></div>
                             <h3 class="team-name">Lucky Tiwari</h3><span class="team-role">Founder & CEO</span>
                             <p class="team-bio">Visionary leader passionate about democratizing education.</p>
                         </div>
                     </a>
                     <a href="https://internaddablogs.blogspot.com/2025/11/vikash-singh-co-founder-head-of.html" class="team-link">
                         <div class="team-card">
-                            <div class="team-img-wrapper"><img src="https://placehold.co/120x120/1e293b/22c55e?text=VS" alt="Vikash Singh" class="team-img" onerror="this.src='https://placehold.co/120x120/ccc/000?text=VS'"></div>
+                            <div class="team-img-wrapper"><img src="Vikash.jpg" alt="Vikash Singh" class="team-img" onerror="this.src='../images/no_image.png'"></div>
                             <h3 class="team-name">Vikash Yadav</h3><span class="team-role">Co-Founder</span>
                             <p class="team-bio">Driving operations and partnerships for student success.</p>
                         </div>
                     </a>
                     <a href="https://internaddablogs.blogspot.com/2025/11/sumit-pandey-cto-of-internadda-official.html" class="team-link">
                         <div class="team-card">
-                            <div class="team-img-wrapper"><img src="https://placehold.co/120x120/1e293b/22c55e?text=SP" alt="Sumit Pandey" class="team-img" onerror="this.src='https://placehold.co/120x120/ccc/000?text=SP'"></div>
+                            <div class="team-img-wrapper"><img src="cto.jpg" alt="Sumit Pandey" class="team-img" onerror="this.src='../images/no_image.png'"></div>
                             <h3 class="team-name">Sumit Pandey</h3><span class="team-role">CTO</span>
                             <p class="team-bio">The tech wizard ensuring a seamless experience.</p>
                         </div>
                     </a>
                     <a href="https://internaddablogs.blogspot.com/2025/11/pranjal-singh-coo-of-internadda.html" class="team-link">
                         <div class="team-card">
-                            <div class="team-img-wrapper"><img src="https://placehold.co/120x120/1e293b/22c55e?text=PS" alt="Pranjal Singh" class="team-img" onerror="this.src='https://placehold.co/120x120/ccc/000?text=PS'"></div>
+                            <div class="team-img-wrapper"><img src="coo.jpg" alt="Pranjal Singh" class="team-img" onerror="this.src='../images/no_image.png'"></div>
                             <h3 class="team-name">Pranjal Singh</h3><span class="team-role">COO</span>
                             <p class="team-bio">Managing operations and student support.</p>
                         </div>
@@ -748,7 +716,7 @@
         const icon = menuBtn.querySelector('i');
         const body = document.body;
 
-        // Main Menu Toggle
+        // 1. Mobile Hamburger Toggle
         menuBtn.addEventListener('click', () => {
             navLinks.classList.toggle('active');
             if (navLinks.classList.contains('active')) {
@@ -762,37 +730,30 @@
             }
         });
 
-        // Fixed: Manual Toggle for "More" dropdown on mobile (Click to open/close)
-        const dropdown = document.getElementById('moreDropdown');
-        const dropdownTrigger = dropdown.querySelector('.dropdown-trigger');
+        // 2. Universal Dropdown Toggle (Desktop & Mobile)
+        // This makes it so clicking "More" opens/closes the menu, instead of hovering.
+        const dropdown = document.querySelector('.dropdown');
+        const trigger = dropdown.querySelector('.dropdown-trigger');
 
-        dropdownTrigger.addEventListener('click', (e) => {
-            // Check if it's a mobile view (<= 992px)
-            if (window.innerWidth <= 992) {
-                e.preventDefault(); // Stop default action (like navigation if the trigger was a link)
-                e.stopPropagation(); 
+        if (trigger) {
+            trigger.addEventListener('click', (e) => {
+                // Prevent default anchor behavior
+                e.preventDefault();
+                // Stop the click from bubbling to the document
+                e.stopPropagation();
+                // Toggle the active class
                 dropdown.classList.toggle('active');
-            }
-        });
+            });
+        }
 
-        // Close dropdown on mobile if an item is clicked
-        dropdown.querySelectorAll('.dropdown-item').forEach(item => {
-             item.addEventListener('click', () => {
-                if (window.innerWidth <= 992) {
-                    navLinks.classList.remove('active');
+        // 3. Close Dropdown when clicking anywhere else on the screen
+        document.addEventListener('click', (e) => {
+            if (dropdown && dropdown.classList.contains('active')) {
+                // If the click happened outside the dropdown, close it
+                if (!dropdown.contains(e.target)) {
                     dropdown.classList.remove('active');
-                    icon.classList.remove('fa-times');
-                    icon.classList.add('fa-bars');
-                    body.style.overflow = 'auto';
                 }
-             });
-        });
-
-        // Fix the sidebar details behavior (click to open/close)
-        const sidebarDetails = document.querySelectorAll('.sidebar-menu details');
-        sidebarDetails.forEach(detail => {
-            // Prevent default behavior to manage open/close manually if needed, but 'details' handles it well now.
-            // However, we remove 'open' attribute from HTML to ensure closed state on load.
+            }
         });
     </script>
 </body>
