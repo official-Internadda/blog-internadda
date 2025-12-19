@@ -10,456 +10,131 @@
     
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="icon" href="favicon.ico">
+    <link rel="icon" href="https://internadda.com/images/favicon.ico">
 
     <style>
         /* =========================================
-           1. GLOBAL RESETS & VARIABLES
+           1. GLOBAL VARIABLES & RESET
            ========================================= */
         :root {
             --primary: #4338ca;
-            --primary-dark: #3730a3;
+            --primary-hover: #3730a3;
             --secondary: #4c51bf;
             --text-main: #1a202c;
-            --text-light: #64748b;
-            --bg-light: #f8fafc;
+            --text-light: #718096;
             --white: #ffffff;
             --border: #e2e8f0;
-            --font-main: 'Inter', sans-serif;
+            --font-family: 'Inter', sans-serif;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        
-        body {
-            font-family: var(--font-main);
-            color: var(--text-main);
-            background-color: var(--bg-light);
-            line-height: 1.6;
-        }
-
-        a { text-decoration: none; color: inherit; transition: all 0.2s ease; }
-        img { max-width: 100%; display: block; }
+        body { font-family: var(--font-family); color: var(--text-main); background-color: #f8faff; line-height: 1.6; overflow-x: hidden; }
+        a { text-decoration: none; color: inherit; transition: color 0.2s; }
         ul { list-style: none; }
-
-        .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+        img { max-width: 100%; display: block; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; position: relative; }
 
         /* =========================================
-           2. HEADER & NAVIGATION
+           2. HEADER & NAVIGATION (Replica)
            ========================================= */
-        header {
-            background: var(--white);
-            box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-        }
-
-        .nav-container {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            height: 72px; 
-        }
-
-        /* Logo */
-        .logo { display: flex; align-items: center; gap: 8px; }
-        .logo img { height: 36px; width: auto; border-radius: 6px; }
-        .logo span { font-weight: 800; font-size: 1.35rem; color: #1e293b; letter-spacing: -0.5px; }
-        .logo span span { color: var(--primary); }
-
-        /* Desktop Nav Links */
-        .nav-links { display: flex; gap: 32px; align-items: center; }
-        
-        .nav-item {
-            font-weight: 600;
-            color: #475569;
-            font-size: 1rem;
-            padding: 8px 0;
-            position: relative;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            border: none;
-            background: none;
-        }
-        
+        header { background: #fff; border-bottom: 1px solid #f1f5f9; position: sticky; top: 0; z-index: 1000; box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
+        .nav-container { display: flex; justify-content: space-between; align-items: center; height: 80px; }
+        .logo { display: flex; align-items: center; gap: 10px; }
+        .logo span { font-weight: 800; font-size: 1.4rem; color: #1a202c; letter-spacing: -0.5px; }
+        .nav-links { display: flex; gap: 30px; align-items: center; }
+        .nav-item { font-weight: 500; color: #4a5568; cursor: pointer; display: flex; align-items: center; gap: 8px; }
+        .nav-item i { display: none; }
         .nav-item:hover { color: var(--primary); }
-
-        /* Hide icons on desktop main links */
-        .nav-icon { display: none; }
-
-        /* Dropdown Styles */
-        .dropdown { position: relative; }
-        .dropdown-trigger { display: flex; align-items: center; gap: 6px; }
         
-        /* Dropdown Menu */
-        .dropdown-menu {
-            position: absolute;
-            top: 100%;
-            right: 0;
-            width: 260px;
-            background: var(--white);
-            border: 1px solid var(--border);
-            border-radius: 8px;
-            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
-            padding: 8px 0;
-            display: none; /* Hidden by default */
-            z-index: 100;
-            margin-top: 15px;
-            transform-origin: top right;
-        }
+        .dropdown { position: relative; display: inline-block; }
+        .dropdown > span { display: flex; align-items: center; cursor: pointer; user-select: none; }
+        .dropdown-content { display: none; position: absolute; background-color: #fff; min-width: 260px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); border-radius: 12px; border: 1px solid #e2e8f0; top: 140%; right: 0; padding: 8px 0; }
+        .dropdown.active .dropdown-content { display: block; animation: slideUp 0.2s ease-out; }
+        .dropdown-link { color: #4a5568; padding: 12px 20px; display: flex; align-items: center; gap: 10px; font-size: 0.95rem; }
+        .dropdown-link:hover { background-color: #f8fafc; color: var(--primary); }
+        .mobile-menu-btn { display: none; background: none; border: none; font-size: 1.5rem; color: #1a202c; cursor: pointer; }
 
-        /* Show Dropdown when Active Class is added via JS */
-        .dropdown.active .dropdown-menu { 
-            display: block; 
-            animation: fadeIn 0.2s ease; 
-        }
-        
-        .dropdown-arrow { transition: transform 0.2s ease; font-size: 0.8em; }
-        .dropdown.active .dropdown-arrow { transform: rotate(180deg); }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(-10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        
-        .dropdown-item {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            padding: 10px 16px;
-            color: #475569;
-            font-size: 0.95rem;
-            border-left: 3px solid transparent;
-        }
-        .item-icon { color: var(--primary); font-size: 1rem; width: 20px; text-align: center;}
-
-        .dropdown-item:hover {
-            background: #f1f5f9;
-            color: var(--primary);
-            border-left-color: var(--primary);
-        }
-
-        .hamburger { 
-            display: none; 
-            font-size: 1.4rem; 
-            color: var(--text-main); 
-            cursor: pointer; 
-            background: none; 
-            border: none;
-            padding: 8px;
-        }
+        @keyframes slideUp { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
         /* =========================================
-           3. BLOG & CONTENT STYLES
+           3. BLOG CONTENT STYLES
            ========================================= */
-        .blog-wrapper {
-            display: flex;
-            gap: 40px;
-            padding: 40px 0 80px;
-            align-items: flex-start;
-        }
-
-        .blog-sidebar {
-            flex: 0 0 300px;
-            background: var(--white);
-            border: 1px solid var(--border);
-            border-radius: 12px;
-            padding: 24px;
-            position: sticky;
-            top: 100px;
-        }
-
-        .sidebar-title {
-            font-size: 1.1rem;
-            font-weight: 700;
-            color: #1e293b;
-            margin-bottom: 20px;
-            padding-bottom: 15px;
-            border-bottom: 1px solid var(--border);
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .sidebar-section { margin-bottom: 20px; }
-        
+        .blog-wrapper { display: flex; gap: 40px; padding: 40px 0 80px; align-items: flex-start; }
+        .blog-sidebar { flex: 0 0 300px; background: var(--white); border: 1px solid var(--border); border-radius: 12px; padding: 24px; position: sticky; top: 100px; }
+        .sidebar-title { font-size: 1.1rem; font-weight: 700; color: #1e293b; margin-bottom: 20px; padding-bottom: 15px; border-bottom: 1px solid var(--border); display: flex; align-items: center; gap: 8px; }
         details { margin-bottom: 10px; border-bottom: 1px solid #f1f5f9; padding-bottom: 10px; }
-        details:last-of-type { border-bottom: none; }
-        
-        summary {
-            font-weight: 600;
-            color: #334155;
-            cursor: pointer;
-            padding: 8px 0;
-            list-style: none;
-            display: flex;
-            justify-content: space-between;
-            font-size: 0.95rem;
-        }
-        summary::-webkit-details-marker { display: none; }
-        summary:hover { color: var(--primary); }
-        
-        .sidebar-list li { margin-top: 8px; }
-        .sidebar-list a {
-            font-size: 0.9rem;
-            color: #64748b;
-            display: block;
-            padding: 4px 0 4px 12px;
-            border-left: 2px solid #e2e8f0;
-        }
-        .sidebar-list a:hover {
-            color: var(--primary);
-            border-left-color: var(--primary);
-            background: linear-gradient(to right, #f8fafc, transparent);
-        }
-
-        .btn-main-site {
-            display: block;
-            width: 100%;
-            text-align: center;
-            background-color: #eff6ff;
-            color: var(--primary);
-            font-weight: 600;
-            padding: 12px;
-            border-radius: 8px;
-            margin-top: 20px;
-            border: 1px solid #bfdbfe;
-        }
-        .btn-main-site:hover { background-color: #dbeafe; }
+        summary { font-weight: 600; color: #334155; cursor: pointer; display: flex; justify-content: space-between; font-size: 0.95rem; }
+        .sidebar-list a { font-size: 0.9rem; color: #64748b; display: block; padding: 4px 0 4px 12px; border-left: 2px solid #e2e8f0; margin-top: 8px; }
+        .sidebar-list a:hover { color: var(--primary); border-left-color: var(--primary); }
+        .btn-main-site { display: block; width: 100%; text-align: center; background-color: #eff6ff; color: var(--primary); font-weight: 600; padding: 12px; border-radius: 8px; margin-top: 20px; border: 1px solid #bfdbfe; }
 
         .blog-content { flex: 1; }
-        
-        .page-heading {
-            font-size: 2.5rem;
-            font-weight: 800;
-            color: #1e293b;
-            margin-bottom: 30px;
-            letter-spacing: -0.025em;
-        }
-
-        .featured-post {
-            background: var(--white);
-            border: 1px solid var(--border);
-            border-radius: 16px;
-            overflow: hidden;
-            margin-bottom: 40px;
-            transition: transform 0.2s, box-shadow 0.2s;
-            display: flex;
-            flex-direction: column;
-        }
-        .featured-post:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
-        }
-        
+        .page-heading { font-size: 2.5rem; font-weight: 800; color: #1e293b; margin-bottom: 30px; }
+        .featured-post { background: var(--white); border: 1px solid var(--border); border-radius: 16px; overflow: hidden; margin-bottom: 40px; display: flex; flex-direction: column; transition: 0.3s; }
         .featured-body { padding: 30px; display: flex; gap: 30px; align-items: center; }
         .featured-img { width: 100%; height: 250px; object-fit: cover; border-radius: 12px; flex: 1; }
         .featured-text { flex: 1.2; }
-        
-        .tag {
-            display: inline-block;
-            background: #e0e7ff;
-            color: var(--primary);
-            font-size: 0.75rem;
-            font-weight: 700;
-            padding: 4px 12px;
-            border-radius: 99px;
-            text-transform: uppercase;
-            margin-bottom: 12px;
-        }
-
-        .featured-title { font-size: 1.75rem; font-weight: 700; line-height: 1.3; margin-bottom: 12px; color: #1e293b; }
-        .featured-excerpt { color: #64748b; margin-bottom: 20px; font-size: 1.05rem; }
-        .meta-info { font-size: 0.85rem; color: #94a3b8; display: flex; align-items: center; gap: 15px; }
-
-        .grid-title { font-size: 1.5rem; font-weight: 700; color: #1e293b; margin-bottom: 20px; border-bottom: 2px solid var(--border); padding-bottom: 10px; }
-        
+        .tag { display: inline-block; background: #e0e7ff; color: var(--primary); font-size: 0.75rem; font-weight: 700; padding: 4px 12px; border-radius: 99px; text-transform: uppercase; margin-bottom: 12px; }
         .article-list { display: flex; flex-direction: column; gap: 20px; }
-        
-        .article-item {
-            background: var(--white);
-            border: 1px solid var(--border);
-            border-radius: 12px;
-            padding: 20px;
-            display: flex;
-            gap: 20px;
-            transition: all 0.2s;
-            align-items: flex-start;
-        }
-        .article-item:hover {
-            border-color: var(--primary);
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
-        }
-        
-        .article-thumb {
-            width: 160px;
-            height: 100px;
-            border-radius: 8px;
-            object-fit: cover;
-            flex-shrink: 0;
-        }
-        
-        .article-info h3 { font-size: 1.15rem; font-weight: 700; color: #1e293b; margin-bottom: 8px; line-height: 1.4; }
+        .article-item { background: var(--white); border: 1px solid var(--border); border-radius: 12px; padding: 20px; display: flex; gap: 20px; align-items: flex-start; transition: 0.3s; }
+        .article-item:hover { border-color: var(--primary); }
+        .article-thumb { width: 160px; height: 110px; border-radius: 8px; object-fit: cover; flex-shrink: 0; }
+        .article-info h3 { font-size: 1.15rem; font-weight: 700; color: #1e293b; margin-bottom: 8px; }
         .article-info p { font-size: 0.85rem; color: #64748b; margin-bottom: 10px; }
-        
-        .tags-row { display: flex; gap: 8px; flex-wrap: wrap; }
-        .mini-tag { font-size: 0.75rem; background: #f1f5f9; color: #64748b; padding: 2px 8px; border-radius: 4px; border: 1px solid #e2e8f0; }
-
-        .team-section {
-            background: #0f172a; 
-            padding: 80px 0;
-            color: white;
-            margin-top: 60px;
-        }
-        .section-head { text-align: center; margin-bottom: 50px; }
-        .section-head h2 { font-size: 2.5rem; font-weight: 800; margin-bottom: 10px; color: white; }
-        .section-head p { color: #94a3b8; }
-
-        .team-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 25px;
-        }
-
-        .team-card {
-            background: linear-gradient(145deg, #1e293b 0%, #0f172a 100%);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            border-radius: 16px;
-            padding: 30px 20px;
-            text-align: center;
-            transition: transform 0.3s;
-        }
-        .team-card:hover {
-            transform: translateY(-8px);
-            border-color: #22c55e;
-            box-shadow: 0 10px 30px -10px rgba(34, 197, 94, 0.3);
-        }
-
-        .team-img-wrapper {
-            width: 120px; height: 120px;
-            margin: 0 auto 20px;
-            border-radius: 50%;
-            padding: 3px;
-            background: linear-gradient(135deg, #22c55e, #0f172a);
-        }
-        .team-img {
-            width: 100%; height: 100%; object-fit: cover; border-radius: 50%; border: 3px solid #0f172a;
-        }
-
-        .team-name { font-size: 1.2rem; font-weight: 700; color: white; margin-bottom: 5px; }
-        .team-role { color: #22c55e; font-size: 0.85rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; display: block; margin-bottom: 10px; }
-        .team-bio { font-size: 0.85rem; color: #94a3b8; line-height: 1.5; }
-
-        footer { background: #0f172a; color: #cbd5e0; padding: 60px 0 20px; border-top: 1px solid #1e293b; }
-        .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 40px; margin-bottom: 40px; }
-        .footer-brand p { color: #94a3b8; font-size: 0.9rem; margin-top: 10px; max-width: 300px; }
-        .footer-col h3 { color: white; font-size: 1rem; font-weight: 700; margin-bottom: 20px; }
-        .footer-col ul li { margin-bottom: 10px; }
-        .footer-col a { font-size: 0.9rem; color: #94a3b8; transition: color 0.2s; }
-        .footer-col a:hover { color: var(--white); }
-        .footer-bottom { text-align: center; border-top: 1px solid #1e293b; padding-top: 20px; font-size: 0.85rem; color: #64748b; }
+        .mini-tag { font-size: 0.75rem; background: #f1f5f9; color: #64748b; padding: 2px 8px; border-radius: 4px; border: 1px solid #e2e8f0; margin-right: 5px; }
 
         /* =========================================
-           4. MOBILE RESPONSIVE
+           4. TEAM SECTION (Separated by Spacing & Color)
+           ========================================= */
+        .team-section { background: #0f172a; padding: 100px 0; color: white; margin-top: 80px; }
+        .section-head { text-align: center; margin-bottom: 60px; }
+        .section-head h2 { font-size: 2.5rem; font-weight: 800; margin-bottom: 10px; }
+        .team-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 25px; }
+        .team-card { background: linear-gradient(145deg, #1e293b 0%, #0f172a 100%); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 16px; padding: 30px 20px; text-align: center; }
+        .team-img-wrapper { width: 120px; height: 120px; margin: 0 auto 20px; border-radius: 50%; padding: 3px; background: linear-gradient(135deg, #22c55e, #0f172a); }
+        .team-img { width: 100%; height: 100%; object-fit: cover; border-radius: 50%; border: 3px solid #0f172a; }
+        .team-name { font-size: 1.2rem; font-weight: 700; margin-bottom: 5px; }
+        .team-role { color: #22c55e; font-size: 0.85rem; font-weight: 600; text-transform: uppercase; margin-bottom: 10px; display: block; }
+        .team-bio { font-size: 0.85rem; color: #94a3b8; }
+
+        /* =========================================
+           5. FOOTER (Exact Replica)
+           ========================================= */
+        footer { background-color: #0f172a; color: #cbd5e0; padding: 80px 0 20px; border-top: 1px solid rgba(255,255,255,0.05); }
+        .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr 1fr 1fr; gap: 40px; margin-bottom: 60px; }
+        .footer-logo { font-size: 1.8rem; font-weight: 800; color: white; margin-bottom: 15px; }
+        .footer-description { color: #94a3b8; font-size: 0.9rem; margin-bottom: 25px; max-width: 300px; }
+        .social-links { display: flex; gap: 15px; }
+        .social-link { width: 40px; height: 40px; border-radius: 50%; background: rgba(255,255,255,0.05); display: flex; align-items: center; justify-content: center; color: white; transition: 0.3s; }
+        .social-link:hover { background: var(--primary); transform: translateY(-3px); }
+        .footer-links-title { color: white; font-weight: 700; margin-bottom: 20px; font-size: 1rem; }
+        .footer-links li { margin-bottom: 12px; }
+        .footer-links a:hover { color: white; padding-left: 5px; }
+        .footer-bottom { border-top: 1px solid rgba(255,255,255,0.05); padding-top: 30px; text-align: center; color: #64748b; font-size: 0.9rem; }
+
+        /* =========================================
+           6. MOBILE RESPONSIVE
            ========================================= */
         @media (max-width: 992px) {
-            /* Mobile Container */
+            .mobile-menu-btn { display: block; z-index: 1002; }
             .nav-links {
-                position: fixed;
-                top: 72px;
-                left: 0;
-                width: 100%;
-                height: calc(100vh - 72px);
-                background: white;
-                flex-direction: column;
-                align-items: flex-start;
-                padding: 0;
-                padding-bottom: 100px; 
-                box-shadow: 0 20px 40px rgba(0,0,0,0.15);
-                display: none; 
-                overflow-y: auto;
-                border-top: 1px solid #e2e8f0;
-                gap: 0; /* FIX: Removes inherited desktop gap */
+                position: absolute; top: 80px; left: 0; width: 100%; background: #ffffff;
+                flex-direction: column; align-items: flex-start; gap: 0; max-height: 0;
+                overflow: hidden; opacity: 0; transition: all 0.3s ease;
+                border-top: 1px solid #f1f5f9; box-shadow: 0 15px 40px rgba(0,0,0,0.1);
             }
-            
-            .nav-links.active { display: flex; }
-
-            /* Vertical Stack for Items */
-            .nav-item, .nav-item.dropdown {
-                display: block;
-                width: 100%;
-                padding: 0;
-            }
-
-            /* Standard Link Styling */
-            a.nav-item {
-                padding: 12px 20px; /* Tightened Padding */
-                border-bottom: 1px solid #f1f5f9;
-                font-size: 1rem;
-                color: #334155;
-                font-weight: 600;
-                display: flex;
-                align-items: center;
-            }
-
-            /* Dropdown Trigger Styling */
-            .dropdown-trigger {
-                width: 100%;
-                display: flex;
-                justify-content: space-between;
-                align-items: center;
-                padding: 12px 20px; /* Tightened Padding */
-                border-bottom: 1px solid #f1f5f9;
-                color: #334155;
-                font-weight: 600;
-                cursor: pointer;
-            }
-            
-            /* Remove extra lines for the last item or specific elements */
-            .nav-item:last-child { border-bottom: none; }
-
-            /* Icon Styling */
-            .nav-icon { 
-                display: inline-block; 
-                color: var(--primary); 
-                margin-right: 12px; 
-                font-size: 1.1rem;
-                width: 24px; text-align: center;
-            }
-
-            /* Dropdown Menu Mobile */
-            .dropdown-menu {
-                position: static; 
-                width: 100%;
-                box-shadow: none;
-                border: none;
-                background: #f8fafc;
-                display: none;
-                margin-top: 0;
-                padding: 0;
-                border-bottom: 1px solid #f1f5f9;
-            }
-            
-            /* Indented Items */
-            .dropdown-item { 
-                padding: 12px 20px 12px 56px; 
-                border-bottom: 1px solid #e2e8f0; 
-                color: #475569;
-                font-weight: 500;
-            }
-            .dropdown-item:last-child { border-bottom: none; }
-
-            .hamburger { display: block; }
-
-            .blog-wrapper { flex-direction: column; padding-top: 20px; }
-            .blog-sidebar { width: 100%; position: static; order: -1; margin-bottom: 30px; }
-            .featured-body { flex-direction: column; }
-            .featured-img { height: 200px; width: 100%; }
-            .team-grid { grid-template-columns: repeat(2, 1fr); gap: 15px; }
-            .footer-grid { grid-template-columns: 1fr; gap: 30px; }
-            
-            /* Fix Article Item Stacking on Mobile */
+            .nav-links.active { max-height: 85vh; opacity: 1; overflow-y: auto; }
+            .nav-item { width: 100%; padding: 16px 24px; border-bottom: 1px solid #f1f5f9; font-weight: 600; }
+            .nav-item i { display: inline-block; color: var(--primary); width: 24px; margin-right: 12px; }
+            .dropdown { width: 100%; }
+            .dropdown > span { width: 100%; padding: 16px 24px; display: flex; justify-content: space-between; border-bottom: 1px solid #f1f5f9; }
+            .dropdown-content { position: static; display: none; width: 100%; box-shadow: none; border: none; background-color: #f8fafc; }
+            .dropdown.active .dropdown-content { display: block; }
+            .blog-wrapper { flex-direction: column; }
+            .blog-sidebar { width: 100%; position: static; margin-bottom: 30px; }
+            .team-grid { grid-template-columns: repeat(2, 1fr); }
+            .footer-grid { grid-template-columns: 1fr 1fr; }
+            .footer-brand { grid-column: span 2; text-align: center; }
             .article-item { flex-direction: column; }
             .article-thumb { width: 100%; height: 180px; }
         }
@@ -470,64 +145,35 @@
     <header>
         <div class="container nav-container">
             <a href="https://internadda.com/" class="logo">
-                <img src="logo.jpg" alt="InternAdda">
-                <span>Intern<span>adda</span></span>
+                <img src="https://internadda.com/images/logo.jpg" alt="Internadda Logo" style="height: 40px; border-radius: 8px;">
+                <span>Intern<span style="color: #4338ca;">adda</span></span>
             </a>
-
-            <nav class="nav-links" id="navLinks">
-                <a href="https://internadda.com/" class="nav-item">
-                    <i class="fas fa-home nav-icon"></i> Home
-                </a>
-                <a href="https://courses.internadda.com/" class="nav-item">
-                    <i class="fas fa-book nav-icon"></i> Courses
-                </a>
-                <a href="https://internadda.com/intern/internship" class="nav-item">
-                    <i class="fas fa-briefcase nav-icon"></i> Internships
-                </a>
-                <a href="https://internadda.com/about" class="nav-item">
-                    <i class="fas fa-info-circle nav-icon"></i> About Us
-                </a>
-                
-                <div class="nav-item dropdown" id="moreDropdown">
-                    <div class="dropdown-trigger">
-                        <span><i class="fas fa-ellipsis-h nav-icon"></i> More</span> 
-                        <i class="fas fa-chevron-down dropdown-arrow"></i>
-                    </div>
-                    <div class="dropdown-menu">
-                        <a href="https://check-ats.internadda.com/" class="dropdown-item">
-                            <i class="fas fa-file-contract item-icon"></i> ATS Score
-                        </a>
-                        <a href="https://cv-builder.internadda.com/" class="dropdown-item">
-                             <i class="fas fa-file-alt item-icon"></i> Resume Builder
-                        </a>
-                        <a href="#" class="dropdown-item">
-                            <i class="fas fa-question-circle item-icon"></i> Interview Question
-                        </a>
-                        <a href="#" class="dropdown-item">
-                             <i class="fas fa-envelope-open-text item-icon"></i> Cover Letter Generator
-                        </a>
-                        <a href="https://internadda.com/contact" class="dropdown-item">
-                             <i class="fas fa-phone-alt item-icon"></i> Contact
-                        </a>
-                         <a href="#" class="dropdown-item">
-                             <i class="fas fa-blog item-icon"></i> Blog
-                        </a>
+            <nav class="nav-links">
+                <a href="https://internadda.com/" class="nav-item"><i class="fas fa-home"></i> Home</a>
+                <a href="https://courses.internadda.com/" class="nav-item"><i class="fas fa-laptop-code"></i> Courses</a>
+                <a href="https://internadda.com/community/academy.html" class="nav-item"><i class="fas fa-school"></i> Offline Academy</a>
+                <a href="https://internadda.com/intern/internship.html" class="nav-item"><i class="fas fa-briefcase"></i> Internships</a>
+                <a href="https://internadda.com/about.html" class="nav-item"><i class="fas fa-info-circle"></i> About Us</a>
+                <div class="dropdown nav-item">
+                    <span>More <i class="fas fa-chevron-down" style="font-size: 0.8rem; margin-left: 4px;"></i></span>
+                    <div class="dropdown-content">
+                        <a href="https://check-ats.internadda.com/" class="dropdown-link"><i class="fas fa-chart-bar"></i> ATS Score</a>
+                        <a href="https://cv-builder.internadda.com/" class="dropdown-link"><i class="fas fa-file-alt"></i> Resume Builder</a>
+                        <a href="https://interview-preparation.internadda.com/" class="dropdown-link"><i class="fas fa-question-circle"></i> Interview Questions</a>
+                        <a href="https://letter-builder.internadda.com/" class="dropdown-link"><i class="fas fa-envelope"></i> Cover Letter</a>
+                        <a href="https://internadda.com/contact.html" class="dropdown-link"><i class="fas fa-phone"></i> Contact</a>
+                        <a href="https://blog.internadda.com/" class="dropdown-link"><i class="fas fa-blog"></i> Blog</a>
                     </div>
                 </div>
             </nav>
-
-            <button class="hamburger" id="menuBtn">
-                <i class="fas fa-bars"></i>
-            </button>
+            <button class="mobile-menu-btn"><i class="fas fa-bars"></i></button>
         </div>
     </header>
 
     <main>
         <div class="container blog-wrapper">
-            
             <aside class="blog-sidebar">
                 <div class="sidebar-title"><i class="fas fa-chart-line" style="color:var(--primary)"></i> Most Viewed & Old</div>
-                
                 <div class="sidebar-menu">
                     <details open>
                         <summary>Top Hits (Nov) <i class="fas fa-chevron-down"></i></summary>
@@ -537,7 +183,6 @@
                             <li><a href="https://blog-internadda.blogspot.com/2025/11/vibe-coding-2026-how-intent-driven.html">Vibe Coding 2026</a></li>
                         </ul>
                     </details>
-
                     <details>
                         <summary>Tech Insights <i class="fas fa-chevron-down"></i></summary>
                         <ul class="sidebar-list">
@@ -546,7 +191,6 @@
                             <li><a href="https://blog-internadda.blogspot.com/2025/11/first.html">IBM Quantum Computing</a></li>
                         </ul>
                     </details>
-
                     <details>
                         <summary>Medical & AI <i class="fas fa-chevron-down"></i></summary>
                         <ul class="sidebar-list">
@@ -555,169 +199,122 @@
                         </ul>
                     </details>
                 </div>
-
                 <a href="https://internadda.com/" class="btn-main-site">Back to Main Site</a>
             </aside>
 
             <section class="blog-content">
                 <h1 class="page-heading">Internadda Career Insights</h1>
-
+                
                 <a href="https://blog-internadda.blogspot.com/2025/11/the-future-lives-at-edge-physical-ai.html" class="featured-post">
                     <div class="featured-body">
                         <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhu9sfYIR5qFFOuH4e0znr04NjxUZ42PC_3AUfEGb0R1F3_JW0srIZCrvYR0J7bRxLs72LNov7RWPfTNhpc9Operio-UvDcmUkJuLlYyl3-Ec7idoiyXcPZwK04W4s7eLD3QBhRXIDhOwy4jNmubCgoyOLhMrzhlPZ3Cdnxw2DCUyiuSZq0_7zVKv7k1A0/s1264/Gemini_Generated_Image_38cm6e38cm6e38cm.png" alt="Physical AI" class="featured-img">
                         <div class="featured-text">
                             <span class="tag">Featured • Nov 25</span>
-                            <h2 class="featured-title">The Future Lives at the Edge: Physical AI and the Next Industrial Revolution</h2>
-                            <p class="featured-excerpt">Explore how Edge AI, autonomous systems, and embedded intelligence are shaping Industry 4.0 and the IoT innovation landscape.</p>
-                            <div class="meta-info">
-                                <span><i class="far fa-clock"></i> 4 min read</span>
-                                <span style="color:var(--primary); font-weight:600;">Read Article <i class="fas fa-arrow-right"></i></span>
-                            </div>
+                            <h2 class="featured-title">Physical AI and the Next Industrial Revolution</h2>
+                            <p class="featured-excerpt">Explore how Edge AI, autonomous systems, and embedded intelligence are shaping the IoT landscape.</p>
+                            <div class="meta-info"><span><i class="far fa-clock"></i> 4 min read</span></div>
                         </div>
                     </div>
                 </a>
 
                 <h2 class="grid-title">Latest Updates</h2>
                 <div class="article-list">
-                    
                     <a href="https://kali-linux-2025-4-release-features.blogspot.com/2025/12/kali-linux-20254-is-here-ai-agents.html" class="article-item">
-                        <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhJ-WJ9rFLwR_d1a3E9I8QF1viBlE_qZs_GY-9-8L6XaMcAFwkHggbermnPvAuqMKsal1G7cvdKm9do_YVuqLorcJY25UYzMazqP00Iy_LL-m_X6YN8C3xF5zG-yMQLltMEuTnU88uEODVEofM7yUVvOFGVw3ZgtOMLH5jGZ1aEoqbFJGCl7U6A0uQ70aQ/s2666/4.png" alt="Kali Linux 2025.4" class="article-thumb">
+                        <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhJ-WJ9rFLwR_d1a3E9I8QF1viBlE_qZs_GY-9-8L6XaMcAFwkHggbermnPvAuqMKsal1G7cvdKm9do_YVuqLorcJY25UYzMazqP00Iy_LL-m_X6YN8C3xF5zG-yMQLltMEuTnU88uEODVEofM7yUVvOFGVw3ZgtOMLH5jGZ1aEoqbFJGCl7U6A0uQ70aQ/s2666/4.png" class="article-thumb">
                         <div class="article-info">
-                            <h3>Kali Linux 2025.4 is Here: AI Agents, The "Death" of HTTP Downloads, and Android 16 Hacking!</h3>
-                            <p>Published Dec 14 • By Pranjal Singh</p>
-                            <div class="tags-row">
-                                <span class="mini-tag">AI Hacking</span>
-                                <span class="mini-tag">Cybersecurity</span>
-                                <span class="mini-tag">Ethical Hacking</span>
-                                <span class="mini-tag">InfoSec</span>
-                            </div>
+                            <h3>Kali Linux 2025.4 is Here: AI Agents & Android Hacking</h3>
+                            <p>Dec 14 • By Pranjal Singh</p>
+                            <div class="tags-row"><span class="mini-tag">Cybersecurity</span><span class="mini-tag">Ethical Hacking</span></div>
                         </div>
                     </a>
-
                     <a href="https://blog-internadda.blogspot.com/2025/12/alien-probe-or-rogue-rock-truth-about.html" class="article-item">
                         <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgrK1uRtBnW6D_cnxVhJzsswHHOUNv513iBacv8qb2E8WKMAn0u01fADM48k1W0Zeg5vzD2CkXlvgU8PS7WE2HgmmqG7JkBOjinVzFLN765qIgfeGEjP8VDZG6romiEErcj5bohBGybSEvPcCFh5ed46kW-DuMp2_aA5gm9a1UfaBMCCwoG9edNTa_jJtU/s2702/Gemini_Generated_Image_hjdwughjdwughjdw.png" class="article-thumb">
                         <div class="article-info">
-                            <h3>Alien Probe or Rogue Rock? The Truth About 3I/ATLAS Arriving This December</h3>
-                            <p>Published Dec 7 • By Pranjal Singh</p>
-                            <div class="tags-row">
-                                <span class="mini-tag">3I/ATLAS</span>
-                                <span class="mini-tag">Astronomy</span>
-                                <span class="mini-tag">Science Mysteries</span>
-                                <span class="mini-tag">Skywatch</span>
-                            </div>
+                            <h3>Alien Probe or Rogue Rock? The Truth About 3I/ATLAS</h3>
+                            <p>Dec 7 • By Pranjal Singh</p>
+                            <div class="tags-row"><span class="mini-tag">Astronomy</span><span class="mini-tag">Science</span></div>
                         </div>
                     </a>
-
                     <a href="https://blog-internadda.blogspot.com/2025/11/semiconductor-innovation-next-gen-chips.html" class="article-item">
-                        <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgIs2IpYs5RE-XV4PPf8Lu5fRWyxbIe-KBcp3GMTS4vmQKRxJGFYX6dWFYGq7-Cqo68LZHSIosw4-izgV6fytUxa3cHqG4TZhWWXHFFuUi295Lud6r6k4z8Gu8VeO9WnwFqCKnFQSNswwOHoDkqwpiB7xTPwa-RbFUVw6OKN2EV0ImI7eVWGOfY7Jyr6dI/s1024/Gemini_Generated_Image_3x2va3x2va3x2va3.png" alt="Semiconductor Innovation" class="article-thumb">
+                        <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgIs2IpYs5RE-XV4PPf8Lu5fRWyxbIe-KBcp3GMTS4vmQKRxJGFYX6dWFYGq7-Cqo68LZHSIosw4-izgV6fytUxa3cHqG4TZhWWXHFFuUi295Lud6r6k4z8Gu8VeO9WnwFqCKnFQSNswwOHoDkqwpiB7xTPwa-RbFUVw6OKN2EV0ImI7eVWGOfY7Jyr6dI/s1024/Gemini_Generated_Image_3x2va3x2va3x2va3.png" class="article-thumb">
                         <div class="article-info">
-                            <h3>Semiconductor Innovation & Next-Gen Chips: Powering the Future of Technology</h3>
-                            <p>Published Nov 26 • By Pranjal Singh</p>
-                            <div class="tags-row">
-                                <span class="mini-tag">6G</span>
-                                <span class="mini-tag">AI Acceleration</span>
-                                <span class="mini-tag">Data Centers</span>
-                                <span class="mini-tag">EV Technology</span>
-                            </div>
+                            <h3>Semiconductor Innovation & Next-Gen Chips</h3>
+                            <p>Nov 26 • By Pranjal Singh</p>
+                            <div class="tags-row"><span class="mini-tag">AI Hardware</span><span class="mini-tag">6G</span></div>
                         </div>
                     </a>
-
                     <a href="https://blog-internadda.blogspot.com/2025/11/foldables-go-mainstream-big-smartphone.html" class="article-item">
-                        <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjkzB6SsZeuPebSctUSBOl8vQCEm35XrJPjDxO0_U51YI9p2P_J7nHpHCz5_8tNAxtPf4MdpaPoahyphenhyphenSWIit8mCuaU-0TxyHkxxdAmc7u_2KcymP9e_ap0UeRaJ-PXjYg_g6LlYSUxHdjOlmj8vEyvv_5-1U0dLnnZfMXUdzh1NeNDaFc1T83rWKSJ5SvCA/s902/Gemini_Generated_Image_cuwltdcuwltdcuwl.png" alt="Foldables" class="article-thumb">
+                        <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjkzB6SsZeuPebSctUSBOl8vQCEm35XrJPjDxO0_U51YI9p2P_J7nHpHCz5_8tNAxtPf4MdpaPoahyphenhyphenSWIit8mCuaU-0TxyHkxxdAmc7u_2KcymP9e_ap0UeRaJ-PXjYg_g6LlYSUxHdjOlmj8vEyvv_5-1U0dLnnZfMXUdzh1NeNDaFc1T83rWKSJ5SvCA/s902/Gemini_Generated_Image_cuwltdcuwltdcuwl.png" class="article-thumb">
                         <div class="article-info">
-                            <h3>Foldables Go Mainstream: The Big Smartphone Shift of 2026</h3>
-                            <p>Published Nov 24 • By Pranjal Singh</p>
+                            <h3>Foldables Go Mainstream: The Big Shift of 2026</h3>
+                            <p>Nov 24 • By Pranjal Singh</p>
                             <div class="tags-row"><span class="mini-tag">Tech Trends</span><span class="mini-tag">Mobile</span></div>
                         </div>
                     </a>
-
                     <a href="https://blog-internadda.blogspot.com/2025/11/vibe-coding-2026-how-intent-driven.html" class="article-item">
-                        <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEh6cIZ4tEIoAcW6RnWYD7oQPqUSJLKmDTvr-pWQlU1UPgBBoOWCYK4HrI1IgGB-V7EDpOE84hSdFLQwCrm0NusPAzAOS2T1MWeMhN239H-hjoul4rqOdglHPfOiIlWHOfQeh5F4pl3gQCk5hyphenhyphenaLJgeMGLejfyUpiG-ZennhWq5FPj-OuY3Ittta3tNdgoM/s1024/Gemini_Generated_Image_iayol5iayol5iayo.png" alt="Vibe Coding" class="article-thumb">
+                        <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEh6cIZ4tEIoAcW6RnWYD7oQPqUSJLKmDTvr-pWQlU1UPgBBoOWCYK4HrI1IgGB-V7EDpOE84hSdFLQwCrm0NusPAzAOS2T1MWeMhN239H-hjoul4rqOdglHPfOiIlWHOfQeh5F4pl3gQCk5hyphenhyphenaLJgeMGLejfyUpiG-ZennhWq5FPj-OuY3Ittta3tNdgoM/s1024/Gemini_Generated_Image_iayol5iayol5iayo.png" class="article-thumb">
                         <div class="article-info">
-                            <h3>Vibe Coding 2026: How Intent-Driven Software is About to Rewrite the Future</h3>
-                            <p>Published Nov 22 • By Pranjal Singh</p>
-                            <div class="tags-row"><span class="mini-tag">AI Coding</span><span class="mini-tag">Cloud Native</span></div>
+                            <h3>Vibe Coding 2026: Rewrite the Future</h3>
+                            <p>Nov 22 • By Pranjal Singh</p>
+                            <div class="tags-row"><span class="mini-tag">AI Coding</span></div>
                         </div>
                     </a>
-
                     <a href="https://blog-internadda.blogspot.com/2025/11/agentic-ai-quantum-leap-6g-future.html" class="article-item">
-                        <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiVbDfjj9Tn5lXM21BEdlxx53WTeqgXiEnKC5AewFBKf2TvZO4EhIjz1TNXkaw8Vky5YQoU5DVgtb6Jc8TyH-e3SJjWqVgIEw41hXBHkLsYod6cfy86uZJ3pH6gKKbGYT2kk2-Yv0RkVBqpXnanf-5yNwNx9BBU5dPDyU3I5-iONhIZovpjvNHCv3848uk/s1024/Gemini_Generated_Image_51vg4451vg4451vg.png" alt="Agentic AI" class="article-thumb">
+                        <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiVbDfjj9Tn5lXM21BEdlxx53WTeqgXiEnKC5AewFBKf2TvZO4EhIjz1TNXkaw8Vky5YQoU5DVgtb6Jc8TyH-e3SJjWqVgIEw41hXBHkLsYod6cfy86uZJ3pH6gKKbGYT2kk2-Yv0RkVBqpXnanf-5yNwNx9BBU5dPDyU3I5-iONhIZovpjvNHCv3848uk/s1024/Gemini_Generated_Image_51vg4451vg4451vg.png" class="article-thumb">
                         <div class="article-info">
-                            <h3>Agentic AI, Quantum Leap & 6G: The Future Arrives Faster Than You Think</h3>
-                            <p>Published Nov 20 • By Pranjal Singh</p>
-                            <div class="tags-row"><span class="mini-tag">6G Technology</span><span class="mini-tag">AI Automation</span></div>
+                            <h3>Agentic AI, Quantum Leap & 6G Future</h3>
+                            <p>Nov 20 • By Pranjal Singh</p>
+                            <div class="tags-row"><span class="mini-tag">AI Automation</span></div>
                         </div>
                     </a>
-
                     <a href="https://blog-internadda.blogspot.com/2025/11/nvidia-takes-crown-how-2025-became-year.html" class="article-item">
                         <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEglHwPLvKS4R482oXui7xT5rpKBfRqefuMyaB3Mer-JUREsDACRZYpYB-0W_tIf6Xt7bgLppL2ay0wToa8a6vRThepu0p4W1CJUNx8wtO2OiYQtqDsJNqkS1cjYhsj6j2a_3gN7PNcArCH5IvkuDVWdbGf25PtzXSF8SjCs3scn6Sr6WMJW3aFllWNiwxQ/s984/Gemini_Generated_Image_xbp4dbxbp4dbxbp4.png" class="article-thumb">
                         <div class="article-info">
-                            <h3>NVIDIA Takes the Crown: How 2025 Became the Year AI Got a New King</h3>
-                            <p>Published Nov 19 • By Pranjal Singh</p>
-                            <div class="tags-row"><span class="mini-tag">AI Hardware</span><span class="mini-tag">Enterprise AI</span></div>
+                            <h3>NVIDIA Takes the Crown: AI King 2025</h3>
+                            <p>Nov 19 • By Pranjal Singh</p>
+                            <div class="tags-row"><span class="mini-tag">NVIDIA</span><span class="mini-tag">Hardware</span></div>
                         </div>
                     </a>
-
                     <a href="https://blog-internadda.blogspot.com/2025/11/c-vs-python-which-programming-language.html" class="article-item">
-                        <img src="https://blogger.googleusercontent.com/img/a/AVvXsEiu4E-cHAcb_UVBTVPQ8N7dr7n_1wBn4shAjQzddi4Bz6lARW0NncMTL6VDim2cYOhx4EzVWvnn4rgCqzwTVpjeeJ5osZ8eD1mfUnt6SrYJYxnxBFoLIhofMdV7spit5BHHI4aFOOuZ3HhBeZ3RGJDfUm4YET7y3An0xlmTuz9Emx5Lg9NolZEFIWAfjFg" alt="C++ vs Python" class="article-thumb">
+                        <img src="https://blogger.googleusercontent.com/img/a/AVvXsEiu4E-cHAcb_UVBTVPQ8N7dr7n_1wBn4shAjQzddi4Bz6lARW0NncMTL6VDim2cYOhx4EzVWvnn4rgCqzwTVpjeeJ5osZ8eD1mfUnt6SrYJYxnxBFoLIhofMdV7spit5BHHI4aFOOuZ3HhBeZ3RGJDfUm4YET7y3An0xlmTuz9Emx5Lg9NolZEFIWAfjFg" class="article-thumb">
                         <div class="article-info">
-                            <h3>C++ vs. Python: Which Programming Language Should You Learn in 2025?</h3>
-                            <p>Published Nov 17 • By Pranjal Singh</p>
-                            <div class="tags-row"><span class="mini-tag">Career</span><span class="mini-tag">Programming</span></div>
+                            <h3>C++ vs. Python: What to learn in 2025?</h3>
+                            <p>Nov 17 • By Pranjal Singh</p>
+                            <div class="tags-row"><span class="mini-tag">Programming</span><span class="mini-tag">Career</span></div>
                         </div>
                     </a>
-
                     <a href="https://blog-internadda.blogspot.com/2025/11/ai-driven-autonomy-swarming-drones.html" class="article-item">
-                    <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgp-xLsE3nSP5Bhfqhe3aYC0iNMB3WofOOfuYQm7-wfvWKLtzmQ2iWg6btPMetCyIG3F_Q1XSirqbtrC4LtagjEXH2TgkHiB58CB4oMh-tILnYoBopZ6WdD9y86IaJA2I96bibdUSiuf_MoMw3c-DADNt0kXSYwihT8GzMe2HfiTjmPSO8GIINPwJ07F0g/s1024/Gemini_Generated_Image_71nt4c71nt4c71nt.png" 
-                         alt="AI Driven Drones" class="article-thumb">
-                    <div class="article-info">
-                        <h3>AI-driven autonomy & swarming drones</h3>
-                        <p>Published Nov 17 • By Pranjal Singh</p>
-                        <div class="tags-row">
-                            <span class="mini-tag">AI drone technology</span>
-                            <span class="mini-tag">AI-driven autonomy</span>
-                            <span class="mini-tag">Autonomous drones</span>
-                            <span class="mini-tag">Drone Intelligence</span>
+                        <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgp-xLsE3nSP5Bhfqhe3aYC0iNMB3WofOOfuYQm7-wfvWKLtzmQ2iWg6btPMetCyIG3F_Q1XSirqbtrC4LtagjEXH2TgkHiB58CB4oMh-tILnYoBopZ6WdD9y86IaJA2I96bibdUSiuf_MoMw3c-DADNt0kXSYwihT8GzMe2HfiTjmPSO8GIINPwJ07F0g/s1024/Gemini_Generated_Image_71nt4c71nt4c71nt.png" class="article-thumb">
+                        <div class="article-info">
+                            <h3>AI-driven autonomy & swarming drones</h3>
+                            <p>Nov 17 • By Pranjal Singh</p>
+                            <div class="tags-row"><span class="mini-tag">Autonomous drones</span></div>
                         </div>
-                    </div>
-                </a>
-
-
+                    </a>
                     <a href="https://blog-internadda.blogspot.com/2025/11/a-new-era-of-healing-how-electric.html" class="article-item">
-                        <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiAzSPHTrYrr9uLzWhpSBXg0NlwakKFGvpfs2kp_O2wZik4rotQH58nqKk_RT8TlqE821oY5YEBehbzM1IAAW9JSqgi1nNuBt2Dy9hggfAIMaW8ScFrNaIdzizC7YJX5sdo6ohp4bfMJfUmQgyI4JrQec8M84NF8iJgytjszWTxmF3BTEzk_wmTFvXLn2o/s1024/Gemini_Generated_Image_x93iitx93iitx93i.png" 
-                             alt="Electric Bandages Tech" class="article-thumb">
+                        <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiAzSPHTrYrr9uLzWhpSBXg0NlwakKFGvpfs2kp_O2wZik4rotQH58nqKk_RT8TlqE821oY5YEBehbzM1IAAW9JSqgi1nNuBt2Dy9hggfAIMaW8ScFrNaIdzizC7YJX5sdo6ohp4bfMJfUmQgyI4JrQec8M84NF8iJgytjszWTxmF3BTEzk_wmTFvXLn2o/s1024/Gemini_Generated_Image_x93iitx93iitx93i.png" class="article-thumb">
                         <div class="article-info">
-                            <h3>A New Era of Healing: How Electric Bandages Are Transforming Wound Care</h3>
-                            <p>Published Nov 15 • By Pranjal Singh</p>
-                            <div class="tags-row">
-                                <span class="mini-tag">AI Biotechnology</span>
-                                <span class="mini-tag">AI Medical Imaging</span>
-                                <span class="mini-tag">Emerging Tech</span>
-                                <span class="mini-tag">Future of Healthcare</span>
-                            </div>
+                            <h3>Electric Bandages: Healing Wound Care</h3>
+                            <p>Nov 15 • By Pranjal Singh</p>
+                            <div class="tags-row"><span class="mini-tag">Medical Tech</span></div>
                         </div>
                     </a>
-
-
-
                     <a href="https://blog-internadda.blogspot.com/2025/11/the-ai-revolution-in-white-coats.html" class="article-item">
-                        <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgrKQ9VW1c5Gsf6Gnx6XAIjluKauZU1Fqbk13INfbutdZFNyamuxKB8wMgq0HZSgKU9uaOSFfGBxBdqXslS54RfibZUW0Lkh8qFLzjL3ETIMgNvSsUQuVER5_7Y2cAp1oaKG0f-lUd4rFtd2hIrAteOlSFeONKFg270s9Hz1PLospSwpX8lnl6g9G4geG4/s770/Gemini_Generated_Image_299irq299irq299i.png" alt="AI Medicine" class="article-thumb">
+                        <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgrKQ9VW1c5Gsf6Gnx6XAIjluKauZU1Fqbk13INfbutdZFNyamuxKB8wMgq0HZSgKU9uaOSFfGBxBdqXslS54RfibZUW0Lkh8qFLzjL3ETIMgNvSsUQuVER5_7Y2cAp1oaKG0f-lUd4rFtd2hIrAteOlSFeONKFg270s9Hz1PLospSwpX8lnl6g9G4geG4/s770/Gemini_Generated_Image_299irq299irq299i.png" class="article-thumb">
                         <div class="article-info">
-                            <h3>The AI Revolution in White Coats: Transforming Medicine from Discovery to Diagnosis</h3>
-                            <p>Published Nov 14 • By Pranjal Singh</p>
-                            <div class="tags-row"><span class="mini-tag">Biotech</span><span class="mini-tag">Healthcare</span></div>
+                            <h3>The AI Revolution in White Coats</h3>
+                            <p>Nov 14 • By Pranjal Singh</p>
+                            <div class="tags-row"><span class="mini-tag">Biotech</span><span class="mini-tag">AI Medical</span></div>
                         </div>
                     </a>
-
                     <a href="https://blog-internadda.blogspot.com/2025/11/first.html" class="article-item">
-                        <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEh13k0tGa9XI1qUdObtAxpKcwcrlPVfRALZEIG9KqyuO42FcrJcVa5Gm17TtwqVSy-vmUHutQFxcnf9UWBQ9Ir_ndpiDX4aEhYWrllkTdI2eptInDVNzeXxTKTpnzLmuD7VRwsTPVlIlKgTLjBx3kospOKnLeoU9PjiKt8epC3XUd5ZpyQFHIdPRd33tZO5/s624/Screenshot%20from%202025-11-13%2022-40-24.png" alt="Quantum Computing" class="article-thumb">
+                        <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEh13k0tGa9XI1qUdObtAxpKcwcrlPVfRALZEIG9KqyuO42FcrJcVa5Gm17TtwqVSy-vmUHutQFxcnf9UWBQ9Ir_ndpiDX4aEhYWrllkTdI2eptInDVNzeXxTKTpnzLmuD7VRwsTPVlIlKgTLjBx3kospOKnLeoU9PjiKt8epC3XUd5ZpyQFHIdPRd33tZO5/s624/Screenshot%20from%202025-11-13%2022-40-24.png" class="article-thumb">
                         <div class="article-info">
-                            <h3>How IBM Is Powering the Future of Quantum Computing</h3>
-                            <p>Published Nov 13 • By Pranjal Singh</p>
-                            <div class="tags-row"><span class="mini-tag">Quantum</span><span class="mini-tag">Innovation</span></div>
+                            <h3>IBM Powering Quantum Computing</h3>
+                            <p>Nov 13 • By Pranjal Singh</p>
+                            <div class="tags-row"><span class="mini-tag">Quantum</span><span class="mini-tag">IBM</span></div>
                         </div>
                     </a>
-
                 </div>
             </section>
         </div>
@@ -729,33 +326,25 @@
                     <p>The passionate minds behind Internadda.</p>
                 </div>
                 <div class="team-grid">
-                    <a href="https://internaddablogs.blogspot.com/2025/11/lucky-tiwari-founder-of-internadda.html" class="team-link">
-                        <div class="team-card">
-                            <div class="team-img-wrapper"><img src="founder.jpg" alt="Lucky Tiwari" class="team-img" onerror="this.src='../images/no_image.png'"></div>
-                            <h3 class="team-name">Lucky Tiwari</h3><span class="team-role">Founder & CEO</span>
-                            <p class="team-bio">Visionary leader passionate about democratizing education.</p>
-                        </div>
+                    <a href="https://internaddablogs.blogspot.com/2025/11/lucky-tiwari-founder-of-internadda.html" class="team-card">
+                        <div class="team-img-wrapper"><img src="https://internadda.com/images/founder.jpg" class="team-img"></div>
+                        <h3 class="team-name">Lucky Tiwari</h3><span class="team-role">Founder & CEO</span>
+                        <p class="team-bio">Visionary leader passionate about democratizing education.</p>
                     </a>
-                    <a href="https://internaddablogs.blogspot.com/2025/11/vikash-singh-co-founder-head-of.html" class="team-link">
-                        <div class="team-card">
-                            <div class="team-img-wrapper"><img src="Vikash.jpg" alt="Vikash Singh" class="team-img" onerror="this.src='../images/no_image.png'"></div>
-                            <h3 class="team-name">Vikash Yadav</h3><span class="team-role">Co-Founder</span>
-                            <p class="team-bio">Driving operations and partnerships for student success.</p>
-                        </div>
+                    <a href="https://internaddablogs.blogspot.com/2025/11/vikash-singh-co-founder-head-of.html" class="team-card">
+                        <div class="team-img-wrapper"><img src="https://internadda.com/images/Vikash.jpg" class="team-img"></div>
+                        <h3 class="team-name">Vikash Yadav</h3><span class="team-role">Co-Founder</span>
+                        <p class="team-bio">Driving operations and partnerships for student success.</p>
                     </a>
-                    <a href="https://internaddablogs.blogspot.com/2025/11/sumit-pandey-cto-of-internadda-official.html" class="team-link">
-                        <div class="team-card">
-                            <div class="team-img-wrapper"><img src="cto.jpg" alt="Sumit Pandey" class="team-img" onerror="this.src='../images/no_image.png'"></div>
-                            <h3 class="team-name">Sumit Pandey</h3><span class="team-role">CTO</span>
-                            <p class="team-bio">The tech wizard ensuring a seamless experience.</p>
-                        </div>
+                    <a href="https://internaddablogs.blogspot.com/2025/11/sumit-pandey-cto-of-internadda-official.html" class="team-card">
+                        <div class="team-img-wrapper"><img src="https://internadda.com/images/cto.jpg" class="team-img"></div>
+                        <h3 class="team-name">Sumit Pandey</h3><span class="team-role">CTO</span>
+                        <p class="team-bio">The tech wizard ensuring a seamless experience.</p>
                     </a>
-                    <a href="https://internaddablogs.blogspot.com/2025/11/pranjal-singh-coo-of-internadda.html" class="team-link">
-                        <div class="team-card">
-                            <div class="team-img-wrapper"><img src="coo.jpg" alt="Pranjal Singh" class="team-img" onerror="this.src='../images/no_image.png'"></div>
-                            <h3 class="team-name">Pranjal Singh</h3><span class="team-role">COO</span>
-                            <p class="team-bio">Managing operations and student support.</p>
-                        </div>
+                    <a href="https://internaddablogs.blogspot.com/2025/11/pranjal-singh-coo-of-internadda.html" class="team-card">
+                        <div class="team-img-wrapper"><img src="https://internadda.com/images/coo.jpg" class="team-img"></div>
+                        <h3 class="team-name">Pranjal Singh</h3><span class="team-role">COO</span>
+                        <p class="team-bio">Managing operations and student support.</p>
                     </a>
                 </div>
             </div>
@@ -765,73 +354,96 @@
     <footer>
         <div class="container">
             <div class="footer-grid">
-                <div class="footer-col">
-                    <h3 style="font-size:1.5rem; margin-bottom:10px;">Internadda</h3>
-                    <p style="color:#94a3b8; font-size:0.9rem;">Transforming careers through learning, interning, and earning opportunities.</p>
+                <div class="footer-brand">
+                    <div class="footer-logo">Internadda</div>
+                    <p class="footer-description">Transforming careers through learning, interning, and earning opportunities.</p>
+                    <div class="social-links">
+                        <a href="https://www.linkedin.com/company/internadda-india" target="_blank" class="social-link"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="https://x.com/InternaddaX" target="_blank" class="social-link"><i class="fab fa-twitter"></i></a>
+                        <a href="https://www.youtube.com/@theinternadda" target="_blank" class="social-link"><i class="fab fa-youtube"></i></a>
+                        <a href="https://www.instagram.com/internadda.india" target="_blank" class="social-link"><i class="fab fa-instagram"></i></a>
+                    </div>
                 </div>
-                <div class="footer-col">
-                    <h3>Learn</h3>
-                    <ul><li><a href="https://courses.internadda.com/">Browse Courses</a></li><li><a href="https://courses.internadda.com/">Free Courses</a></li></ul>
+
+                <div class="footer-links-column">
+                    <h3 class="footer-links-title">Learn</h3>
+                    <ul class="footer-links">
+                        <li><a href="https://courses.internadda.com/">Browse Courses</a></li>
+                        <li><a href="https://courses.internadda.com/">Free Courses</a></li>
+                        <li><a href="https://internadda.com/community/academy.html">Offline Academy</a></li>
+                    </ul>
                 </div>
-                <div class="footer-col">
-                    <h3>Intern</h3>
-                    <ul><li><a href="https://internadda.com/intern/internship">Find Internships</a></li><li><a href="#">Success Stories</a></li></ul>
+
+                <div class="footer-links-column">
+                    <h3 class="footer-links-title">Intern</h3>
+                    <ul class="footer-links">
+                        <li><a href="https://internadda.com/intern/internship.html">Find Internships</a></li>
+                        <li><a href="#">Success Stories</a></li>
+                    </ul>
                 </div>
-                <div class="footer-col">
-                    <h3>Company</h3>
-                    <ul><li><a href="https://internadda.com/about">About Us</a></li><li><a href="https://internadda.com/contact">Contact</a></li></ul>
+                
+                <div class="footer-links-column">
+                    <h3 class="footer-links-title">Tools</h3>
+                    <ul class="footer-links">
+                        <li><a href="https://check-ats.internadda.com/">ATS Checker</a></li>
+                        <li><a href="https://cv-builder.internadda.com/">Resume Builder</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-links-column">
+                    <h3 class="footer-links-title">Company</h3>
+                    <ul class="footer-links">
+                        <li><a href="https://internadda.com/about.html">About Us</a></li>
+                        <li><a href="https://internadda.com/contact.html">Contact Us</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-links-column">
+                    <h3 class="footer-links-title">Community</h3>
+                    <ul class="footer-links">
+                        <li><a href="https://blog.internadda.com/">Blog</a></li>
+                        <li><a href="https://internadda.com/community/join.html">Join Us</a></li>
+                    </ul>
                 </div>
             </div>
             <div class="footer-bottom">
-                <p>© 2025 Internadda. All rights reserved.</p>
+                <p>© 2025 Internadda. All rights reserved. | Developed by Internadda Team</p>
             </div>
         </div>
     </footer>
 
     <script>
-        const menuBtn = document.getElementById('menuBtn');
-        const navLinks = document.getElementById('navLinks');
-        const icon = menuBtn.querySelector('i');
-        const body = document.body;
-
-        // 1. Mobile Hamburger Toggle
-        menuBtn.addEventListener('click', () => {
-            navLinks.classList.toggle('active');
-            if (navLinks.classList.contains('active')) {
-                icon.classList.remove('fa-bars');
-                icon.classList.add('fa-times');
-                body.style.overflow = 'hidden'; // Lock scroll
-            } else {
-                icon.classList.remove('fa-times');
-                icon.classList.add('fa-bars');
-                body.style.overflow = 'auto'; // Unlock scroll
-            }
-        });
-
-        // 2. Universal Dropdown Toggle (Desktop & Mobile)
-        // This makes it so clicking "More" opens/closes the menu, instead of hovering.
-        const dropdown = document.querySelector('.dropdown');
-        const trigger = dropdown.querySelector('.dropdown-trigger');
-
-        if (trigger) {
-            trigger.addEventListener('click', (e) => {
-                // Prevent default anchor behavior
-                e.preventDefault();
-                // Stop the click from bubbling to the document
-                e.stopPropagation();
-                // Toggle the active class
-                dropdown.classList.toggle('active');
+        document.addEventListener('DOMContentLoaded', function() {
+            // Dropdown Logic
+            const dropdowns = document.querySelectorAll('.dropdown');
+            dropdowns.forEach(dropdown => {
+                dropdown.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    dropdowns.forEach(other => { if (other !== dropdown) other.classList.remove('active'); });
+                    dropdown.classList.toggle('active');
+                });
             });
-        }
 
-        // 3. Close Dropdown when clicking anywhere else on the screen
-        document.addEventListener('click', (e) => {
-            if (dropdown && dropdown.classList.contains('active')) {
-                // If the click happened outside the dropdown, close it
-                if (!dropdown.contains(e.target)) {
-                    dropdown.classList.remove('active');
-                }
+            // Mobile Menu Toggle
+            const menuBtn = document.querySelector('.mobile-menu-btn');
+            const navLinks = document.querySelector('.nav-links');
+            if (menuBtn) {
+                menuBtn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    navLinks.classList.toggle('active');
+                    const icon = menuBtn.querySelector('i');
+                    if (navLinks.classList.contains('active')) {
+                        icon.classList.replace('fa-bars', 'fa-times');
+                    } else {
+                        icon.classList.replace('fa-times', 'fa-bars');
+                    }
+                });
             }
+
+            document.addEventListener('click', () => {
+                dropdowns.forEach(d => d.classList.remove('active'));
+                navLinks.classList.remove('active');
+            });
         });
     </script>
 </body>
